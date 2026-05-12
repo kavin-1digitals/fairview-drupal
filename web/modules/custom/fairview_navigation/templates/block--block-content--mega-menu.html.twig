@@ -1,0 +1,22 @@
+{#
+/**
+ * Template for the "Fairview Mega Menu" block content type.
+ *
+ * All variables are prepared by fairview_navigation_preprocess_block().
+ * They map directly to the mega-menu.twig component variables.
+ */
+#}
+{% include '@fairview/components/mega-menu/mega-menu.twig' with {
+  intro_title:        intro_title,
+  intro_description:  intro_description,
+  intro_cta_label:    intro_cta_label,
+  intro_cta_url:      intro_cta_url,
+  quick_links_heading: quick_links_heading,
+  quick_links:         quick_links,
+  view_all_label:      view_all_label,
+  view_all_url:        view_all_url,
+  featured_image_url:  featured_image_url,
+  featured_image_alt:  featured_image_alt,
+  featured_text:       featured_text,
+  featured_url:        featured_url,
+} only %}

@@ -1,0 +1,11 @@
+name: Fairview Navigation
+type: module
+description: 'Provides the Mega Menu block content type for managing primary navigation dropdowns from the Drupal UI.'
+package: Fairview
+core_version_requirement: ^11
+dependencies:
+  - drupal:block
+  - drupal:block_content
+  - drupal:link
+  - drupal:image
+  - drupal:file

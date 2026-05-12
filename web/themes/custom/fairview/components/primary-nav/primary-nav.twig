@@ -1,0 +1,119 @@
+{#
+ * Variables:
+ *   logo_url   — absolute URL to the logo SVG
+ *   front_page — URL of the home page
+ *   site_name  — site name string
+ *   mega_menus — assoc array keyed by trigger id → rendered HTML (optional)
+ *                e.g. { schedule: '...', providers: '...' }
+ #}
+
+{# Nav items — add trigger key to enable a mega-menu dropdown for that item #}
+{% set nav_items = [
+  { label: 'Schedule',         href: '/schedule',        trigger: 'schedule' },
+  { label: 'Providers',        href: '/providers',       trigger: 'providers' },
+  { label: 'Locations',        href: '/locations',       trigger: 'locations' },
+  { label: 'Care & Treatment', href: '/care-treatment',  trigger: 'care' },
+  { label: 'Resources',        href: '/resources',       trigger: 'resources' },
+  { label: 'About Us',         href: '/about',           trigger: 'about' },
+] %}
+
+<nav class="primary-nav" aria-label="{{ 'Primary navigation'|t }}" data-primary-nav>
+  <div class="primary-nav__inner">
+
+    {# ── Logo ─────────────────────────────────────────────────────── #}
+    <a class="primary-nav__logo"
+       href="{{ front_page|default('/') }}"
+       rel="home"
+       aria-label="{{ 'Fairview home'|t }}">
+      <img src="{{ logo_url }}" alt="{{ 'Fairview'|t }}" width="176" height="25" />
+    </a>
+
+    {# ── Main panel (hidden on mobile, toggled by hamburger) ──────── #}
+    <div class="primary-nav__panel" data-nav-panel>
+
+      {# Primary nav links #}
+      <ul class="primary-nav__menu" role="list">
+        {% for item in nav_items %}
+          {% set has_dropdown = item.trigger and mega_menus[item.trigger] is not empty %}
+          <li class="primary-nav__menu-item" data-nav-item>
+            {#
+              Items WITH a mega menu → <button> (no href, so no link navigation fires).
+              Items WITHOUT a mega menu → plain <a> link.
+            #}
+            {% if has_dropdown %}
+              <button type="button"
+                      class="primary-nav__menu-link"
+                      data-triggers="{{ item.trigger }}"
+                      aria-haspopup="true"
+                      aria-expanded="false">
+                <span>{{ item.label|t }}</span>
+                <svg class="primary-nav__chevron" width="10" height="10"
+                     viewBox="0 0 10 10" fill="none"
+                     aria-hidden="true" focusable="false">
+                  <path d="M1.5 3.5L5 7L8.5 3.5"
+                        stroke="currentColor" stroke-width="1.6"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </button>
+            {% else %}
+              <a href="{{ item.href }}" class="primary-nav__menu-link">
+                <span>{{ item.label|t }}</span>
+              </a>
+            {% endif %}
+          </li>
+        {% endfor %}
+      </ul>
+
+      {# Vertical divider #}
+      <div class="primary-nav__divider" aria-hidden="true"></div>
+
+      {# Right: utility action links #}
+      <div class="primary-nav__actions">
+        <a href="/mychart" class="primary-nav__action-link">
+          {{ 'MyChart & App'|t }}
+        </a>
+        <a href="/pay-bill" class="primary-nav__action-link">
+          {{ 'Pay A Bill'|t }}
+        </a>
+        <a href="/search" class="primary-nav__action-link primary-nav__action-link--search">
+          <svg class="primary-nav__search-icon" width="15" height="15"
+               viewBox="0 0 15 15" fill="none"
+               aria-hidden="true" focusable="false">
+            <circle cx="6.5" cy="6.5" r="4.75" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M10.5 10.5L13.5 13.5" stroke="currentColor"
+                  stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          {{ 'Search'|t }}
+        </a>
+      </div>
+
+    </div>{# /.primary-nav__panel #}
+
+    {# ── Mobile hamburger ────────────────────────────────────────── #}
+    <button class="primary-nav__hamburger"
+            aria-expanded="false"
+            aria-label="{{ 'Open navigation menu'|t }}"
+            data-nav-toggle>
+      <span class="primary-nav__bar"></span>
+      <span class="primary-nav__bar"></span>
+      <span class="primary-nav__bar"></span>
+    </button>
+
+  </div>{# /.primary-nav__inner #}
+
+  {# ── Mega menu panels (desktop only, absolute below bar) ───────── #}
+  {% if mega_menus %}
+    <div class="primary-nav__mega-menus" data-mega-menus>
+      {% for trigger_key, content in mega_menus %}
+        {% if content %}
+          <div class="mega-menu-panel"
+               data-panel="{{ trigger_key }}"
+               hidden>
+            {{ content }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+</nav>

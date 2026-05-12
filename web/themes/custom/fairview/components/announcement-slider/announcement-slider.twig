@@ -1,0 +1,104 @@
+{#
+/**
+ * Announcement Slider.
+ *
+ * Variables:
+ *   slides — array of:
+ *     label      string  eyebrow label (e.g. "Announcement")
+ *     heading    string  card title
+ *     body       string  paragraph text
+ *     cta_label  string  button text
+ *     cta_url    string  button href
+ */
+#}
+<section class="ann-slider" aria-label="{{ 'Announcements'|t }}" data-ann-slider>
+  <div class="ann-slider__inner">
+
+    {# ── Stage: card + left/right arrows ──────────────────────── #}
+    <div class="ann-slider__stage">
+
+      <div class="ann-slider__viewport">
+        <div class="ann-slider__track" data-ann-track>
+
+          {% for slide in slides %}
+            <div class="ann-slider__slide{% if loop.first %} is-active{% endif %}"
+                 data-ann-slide
+                 role="group"
+                 aria-roledescription="slide"
+                 aria-label="{{ loop.index }} {{ 'of'|t }} {{ slides|length }}">
+
+              <div class="ann-slider__card">
+
+                {# ── Text content ────────────────────────────── #}
+                <div class="ann-slider__content">
+                  {% if slide.label %}
+                    <p class="ann-slider__label">{{ slide.label }}</p>
+                  {% endif %}
+                  <h2 class="ann-slider__heading">{{ slide.heading }}</h2>
+                  {% if slide.body %}
+                    <p class="ann-slider__body">{{ slide.body }}</p>
+                  {% endif %}
+                  {% if slide.cta_label and slide.cta_url %}
+                    <a href="{{ slide.cta_url }}" class="ann-slider__cta">
+                      {{ slide.cta_label }}
+                      <span class="ann-slider__cta-icon" aria-hidden="true">
+                        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                          <path d="M3 8h10M9 4l4 4-4 4"
+                                stroke="currentColor" stroke-width="1.75"
+                                stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                      </span>
+                    </a>
+                  {% endif %}
+                </div>
+
+                {# ── Decorative accent panel ─────────────────── #}
+                <div class="ann-slider__accent" aria-hidden="true">
+                  <span class="ann-slider__accent-num">{{ '%02d'|format(loop.index) }}</span>
+                </div>
+
+              </div>
+            </div>
+          {% endfor %}
+
+        </div>
+      </div>
+
+      {# ── Side arrows — centered on the card ─────────────────── #}
+      {% if slides|length > 1 %}
+        <button class="ann-slider__arrow ann-slider__arrow--prev"
+                aria-label="{{ 'Previous'|t }}"
+                data-ann-prev>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M11.5 4.5L7 9l4.5 4.5" stroke="currentColor" stroke-width="1.75"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <button class="ann-slider__arrow ann-slider__arrow--next"
+                aria-label="{{ 'Next'|t }}"
+                data-ann-next>
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <path d="M6.5 4.5L11 9l-4.5 4.5" stroke="currentColor" stroke-width="1.75"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      {% endif %}
+
+    </div>
+
+    {# ── Dots ──────────────────────────────────────────────────── #}
+    {% if slides|length > 1 %}
+      <div class="ann-slider__dots" role="tablist" aria-label="{{ 'Slide navigation'|t }}">
+        {% for slide in slides %}
+          <button class="ann-slider__dot{% if loop.first %} is-active{% endif %}"
+                  role="tab"
+                  aria-selected="{{ loop.first ? 'true' : 'false' }}"
+                  aria-label="{{ 'Go to slide'|t }} {{ loop.index }}"
+                  data-ann-dot="{{ loop.index0 }}">
+          </button>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+  </div>
+</section>

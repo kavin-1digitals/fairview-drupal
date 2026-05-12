@@ -1,0 +1,29 @@
+<?php
+
+/**
+ * @file
+ * Fairview theme functions.
+ */
+
+/**
+ * Implements hook_theme_suggestions_page_alter().
+ *
+ * Adds a path-alias based template suggestion so that a page
+ * at /new-chapter can be themed by page--new-chapter.html.twig.
+ *
+ * Drupal maps the suggestion string page__new_chapter to the file
+ * page--new-chapter.html.twig (__ → --, _ → -).
+ */
+function fairview_theme_suggestions_page_alter(array &$suggestions, array $variables) {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $path_alias   = \Drupal::service('path_alias.manager')
+    ->getAliasByPath($current_path);
+
+  $alias = trim($path_alias, '/');
+  if ($alias && $alias !== '<front>') {
+    // /new-chapter  →  new_chapter  →  page__new_chapter
+    // Drupal template naming: __ → -- and _ → -
+    $key = preg_replace('/[^a-z0-9]/', '_', strtolower($alias));
+    $suggestions[] = 'page__' . $key;
+  }
+}

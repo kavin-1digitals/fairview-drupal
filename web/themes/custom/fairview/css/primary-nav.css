@@ -1,0 +1,323 @@
+/* ── Primary Navigation ─────────────────────────────────────────────── */
+
+.primary-nav {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dde0e6;
+  width: 100%;
+  position: relative;
+  z-index: 500;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.primary-nav__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  height: 72px;
+  gap: 1.5rem;
+}
+
+/* ── Logo ──────────────────────────────────────────────────────────── */
+
+.primary-nav__logo {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  outline-offset: 4px;
+}
+
+.primary-nav__logo:focus-visible {
+  outline: 2px solid #007A33;
+  border-radius: 3px;
+}
+
+.primary-nav__logo img {
+  display: block;
+  height: 30px;
+  width: auto;
+}
+
+/* ── Panel (menu + divider + actions) ──────────────────────────────── */
+
+.primary-nav__panel {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Primary menu ───────────────────────────────────────────────────── */
+
+.primary-nav__menu {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex: 1;
+  gap: 0;
+}
+
+.primary-nav__menu-item {
+  position: relative;
+}
+
+.primary-nav__menu-link {
+  /* Reset <button> default styles */
+  appearance: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  /* Shared visual styles for both <a> and <button> */
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  padding: 0.45rem 0.7rem;
+  color: #1C1840;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.2;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 4px;
+  transition: color 0.14s ease;
+  position: relative;
+}
+
+.primary-nav__menu-link::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0.7rem;
+  right: 0.7rem;
+  height: 2px;
+  background-color: #007A33;
+  border-radius: 2px;
+  opacity: 0;
+  transform: scaleX(0.6);
+  transition: opacity 0.14s ease, transform 0.14s ease;
+}
+
+.primary-nav__menu-link:hover,
+.primary-nav__menu-link:focus {
+  color: #007A33;
+  outline: none;
+}
+
+.primary-nav__menu-link:hover::after,
+.primary-nav__menu-link:focus::after,
+.primary-nav__menu-link[aria-expanded="true"]::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.primary-nav__menu-link:focus-visible {
+  outline: 2px solid #007A33;
+  outline-offset: 2px;
+}
+
+.primary-nav__menu-link[aria-expanded="true"] {
+  color: #007A33;
+}
+
+/* Chevron rotates when dropdown is open */
+.primary-nav__chevron {
+  flex-shrink: 0;
+  color: currentColor;
+  margin-top: 1px;
+  transition: transform 0.2s ease;
+}
+
+.primary-nav__menu-link[aria-expanded="true"] .primary-nav__chevron {
+  transform: rotate(180deg);
+}
+
+/* ── Divider between nav and actions ───────────────────────────────── */
+
+.primary-nav__divider {
+  flex-shrink: 0;
+  width: 1px;
+  height: 18px;
+  background-color: #dde0e6;
+  margin: 0 0.75rem;
+}
+
+/* ── Right action links ─────────────────────────────────────────────── */
+
+.primary-nav__actions {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  gap: 0;
+}
+
+.primary-nav__action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 0.45rem 0.7rem;
+  color: #1C1840;
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  border-radius: 4px;
+  transition: color 0.14s ease;
+}
+
+.primary-nav__action-link:hover,
+.primary-nav__action-link:focus {
+  color: #007A33;
+  outline: none;
+}
+
+.primary-nav__action-link:focus-visible {
+  outline: 2px solid #007A33;
+  outline-offset: 2px;
+}
+
+.primary-nav__search-icon {
+  flex-shrink: 0;
+  color: currentColor;
+}
+
+/* ── Mobile hamburger ───────────────────────────────────────────────── */
+
+.primary-nav__hamburger {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 9px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: border-color 0.14s ease;
+}
+
+.primary-nav__hamburger:hover {
+  border-color: #dde0e6;
+}
+
+.primary-nav__hamburger:focus-visible {
+  outline: 2px solid #007A33;
+  outline-offset: 2px;
+}
+
+.primary-nav__bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: #1C1840;
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+
+/* Hamburger → X when menu is open */
+.primary-nav__hamburger[aria-expanded="true"] .primary-nav__bar:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.primary-nav__hamburger[aria-expanded="true"] .primary-nav__bar:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.primary-nav__hamburger[aria-expanded="true"] .primary-nav__bar:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .primary-nav__hamburger {
+    display: flex;
+  }
+
+  /* Panel becomes a full-width mobile drawer */
+  .primary-nav__panel {
+    display: none;
+    position: fixed;
+    top: 112px; /* utility bar (40px) + primary nav (72px) */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #ffffff;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0.75rem 1rem 2rem;
+    overflow-y: auto;
+    z-index: 490;
+    gap: 0;
+    border-top: 1px solid #dde0e6;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  }
+
+  .primary-nav__panel.is-open {
+    display: flex;
+  }
+
+  .primary-nav__menu {
+    flex-direction: column;
+    align-items: stretch;
+    flex: 0 0 auto;
+    gap: 0;
+  }
+
+  .primary-nav__menu-item {
+    border-bottom: 1px solid #f0f2f5;
+  }
+
+  .primary-nav__menu-link {
+    width: 100%;
+    padding: 0.875rem 0.5rem;
+    font-size: 0.9375rem;
+    border-radius: 0;
+    justify-content: space-between;
+  }
+
+  .primary-nav__menu-link::after {
+    display: none;
+  }
+
+  .primary-nav__divider {
+    width: auto;
+    height: 1px;
+    margin: 0.875rem 0;
+  }
+
+  .primary-nav__actions {
+    flex-direction: column;
+    align-items: stretch;
+    flex: 0 0 auto;
+    gap: 0;
+  }
+
+  .primary-nav__action-link {
+    padding: 0.875rem 0.5rem;
+    font-size: 0.9375rem;
+    border-bottom: 1px solid #f0f2f5;
+    border-radius: 0;
+    gap: 8px;
+  }
+}
+
+@media (max-width: 639px) {
+  .primary-nav__inner {
+    padding: 0 1rem;
+  }
+
+  .primary-nav__logo img {
+    height: 26px;
+  }
+}

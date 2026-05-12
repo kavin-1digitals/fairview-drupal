@@ -1,0 +1,39 @@
+{#
+/**
+ * Award / announcement banner — 2-column layout.
+ *
+ * Variables:
+ *   heading      string   Left-column title
+ *   body         string   Right-column body text
+ *   links        array of { label, url }  Underlined yellow links
+ */
+#}
+<section class="award-banner" aria-label="{{ heading }}">
+  <div class="award-banner__inner">
+
+    {# ── Left: Heading ──────────────────────────────────────────── #}
+    <div class="award-banner__left">
+      <h2 class="award-banner__heading">{{ heading }}</h2>
+    </div>
+
+    {# ── Right: Body + links ────────────────────────────────────── #}
+    <div class="award-banner__right">
+      {% if body %}
+        <p class="award-banner__body">{{ body }}</p>
+      {% endif %}
+
+      {% if links %}
+        <ul class="award-banner__links" role="list">
+          {% for link in links %}
+            <li>
+              <a href="{{ link.url }}" class="award-banner__link">
+                {{ link.label }}
+              </a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    </div>
+
+  </div>
+</section>

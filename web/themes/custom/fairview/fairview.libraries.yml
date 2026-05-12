@@ -1,0 +1,95 @@
+utility-bar:
+  css:
+    theme:
+      css/utility-bar.css:
+        preprocess: false
+
+primary-nav:
+  css:
+    theme:
+      css/primary-nav.css:
+        preprocess: false
+  js:
+    js/primary-nav.js:
+      attributes:
+        defer: true
+
+mega-menu:
+  css:
+    theme:
+      css/mega-menu.css:
+        preprocess: false
+
+hero-slider:
+  css:
+    theme:
+      css/hero-slider.css:
+        preprocess: false
+  js:
+    js/hero-slider.js:
+      attributes:
+        defer: true
+
+award-banner:
+  css:
+    theme:
+      css/award-banner.css:
+        preprocess: false
+
+care-options:
+  css:
+    theme:
+      css/care-options.css:
+        preprocess: false
+
+feature-cards:
+  css:
+    theme:
+      css/feature-cards.css:
+        preprocess: false
+
+text-columns:
+  css:
+    theme:
+      css/text-columns.css:
+        preprocess: false
+
+new-chapter:
+  css:
+    theme:
+      css/new-chapter.css:
+        preprocess: false
+
+recognition-row:
+  css:
+    theme:
+      css/recognition-row.css:
+        preprocess: false
+
+site-footer:
+  css:
+    theme:
+      css/site-footer.css:
+        preprocess: false
+
+expertise-cols:
+  css:
+    theme:
+      css/expertise-cols.css:
+        preprocess: false
+
+stats-row:
+  css:
+    theme:
+      css/stats-row.css:
+        preprocess: false
+
+announcement-slider:
+  css:
+    theme:
+      css/announcement-slider.css:
+        preprocess: false
+  js:
+    js/announcement-slider.js:
+      attributes:
+        defer: true

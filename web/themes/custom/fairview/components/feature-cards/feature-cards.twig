@@ -1,0 +1,49 @@
+{#
+/**
+ * Feature cards — N-up grid (typically 3 across).
+ *
+ * Variables:
+ *   cards — array of:
+ *     image_url   string
+ *     image_alt   string
+ *     body        string
+ *     cta_label   string
+ *     cta_url     string
+ */
+#}
+<section class="feature-cards" aria-label="{{ 'Featured services'|t }}">
+  <div class="feature-cards__grid">
+    {% for card in cards %}
+      <article class="feature-cards__card">
+
+        {# ── Illustration ─────────────────────────────────────── #}
+        <div class="feature-cards__img-wrap">
+          <img class="feature-cards__img"
+               src="{{ card.image_url }}"
+               alt="{{ card.image_alt|default('') }}"
+               loading="lazy" />
+        </div>
+
+        {# ── Text + CTA ───────────────────────────────────────── #}
+        <div class="feature-cards__body-wrap">
+          {% if card.body %}
+            <p class="feature-cards__body">{{ card.body }}</p>
+          {% endif %}
+
+          {% if card.cta_label and card.cta_url %}
+            <a href="{{ card.cta_url }}" class="feature-cards__btn">
+              {{ card.cta_label }}
+              <svg class="feature-cards__btn-arrow" width="14" height="14"
+                   viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M3 7h8M8 4l3 3-3 3"
+                      stroke="currentColor" stroke-width="1.5"
+                      stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </a>
+          {% endif %}
+        </div>
+
+      </article>
+    {% endfor %}
+  </div>
+</section>

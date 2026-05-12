@@ -1,0 +1,408 @@
+/* ── Hero Slider ─────────────────────────────────────────────────── */
+
+.hero-slider {
+  position: relative;
+  width: 100%;
+  height: clamp(340px, 48vh, 500px);
+  overflow: hidden;
+  background-color: #001830;
+}
+
+/* ── Track & slides ───────────────────────────────────────────────── */
+
+.hero-slider__track {
+  display: flex;
+  height: 100%;
+  will-change: transform;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-slider__slide {
+  flex: 0 0 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-slider__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  transition: transform 6s ease;
+}
+
+/* Subtle Ken Burns on the active slide */
+.hero-slider__slide.is-active .hero-slider__image {
+  transform: scale(1.04);
+}
+
+/* ── Overlay gradient ─────────────────────────────────────────────── */
+
+.hero-slider__overlay {
+  position: absolute;
+  inset: 0;
+  /* Stronger on the left where text lives, fades to transparent on right */
+  background:
+    linear-gradient(
+      to right,
+      rgba(0, 15, 45, 0.78) 0%,
+      rgba(0, 15, 45, 0.52) 45%,
+      rgba(0, 15, 45, 0.08) 100%
+    ),
+    linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.35) 0%,
+      transparent 50%
+    );
+}
+
+/* ── Text content ─────────────────────────────────────────────────── */
+
+.hero-slider__content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 0 1.5rem;
+}
+
+.hero-slider__content-inner {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  max-width: min(580px, 48%);
+  /* Position text block on the left */
+  margin-left: max(1.5rem, calc((100vw - 1280px) / 2));
+}
+
+.hero-slider__heading {
+  font-size: clamp(2rem, 4.5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.12;
+  color: #ffffff;
+  margin: 0;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.25);
+
+  /* Shuffle entrance: start hidden */
+  opacity: 0;
+  transform: translateY(22px);
+  transition: none;
+}
+
+/* Animate in when slide becomes active */
+.hero-slider__slide.is-active .hero-slider__heading {
+  animation: shuffleUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.15s both;
+}
+
+.hero-slider__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.875rem;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+
+  /* Shuffle entrance: staggered after heading */
+  opacity: 0;
+  transform: translateY(18px);
+  transition: none;
+}
+
+.hero-slider__slide.is-active .hero-slider__cta {
+  animation: shuffleUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.38s both;
+}
+
+.hero-slider__cta-label {
+  position: relative;
+}
+
+/* Underline grows on hover */
+.hero-slider__cta-label::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1.5px;
+  background: #ffffff;
+  transition: width 0.2s ease;
+}
+
+.hero-slider__cta:hover .hero-slider__cta-label::after {
+  width: 100%;
+}
+
+/* Orange arrow circle */
+.hero-slider__cta-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #F0A500;
+  flex-shrink: 0;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.hero-slider__cta:hover .hero-slider__cta-icon {
+  background-color: #D4920A;
+  transform: translateX(4px);
+}
+
+/* ── Shuffle animation keyframe ──────────────────────────────────── */
+
+@keyframes shuffleUp {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ── Prev / Next arrows ───────────────────────────────────────────── */
+
+.hero-slider__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.18);
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  transition: background-color 0.16s ease, border-color 0.16s ease;
+  backdrop-filter: blur(4px);
+}
+
+.hero-slider__arrow:hover {
+  background: rgba(255, 255, 255, 0.32);
+  border-color: rgba(255, 255, 255, 0.8);
+}
+
+.hero-slider__arrow:focus-visible {
+  outline: 2px solid #F0A500;
+  outline-offset: 3px;
+}
+
+.hero-slider__arrow--prev {
+  left: 1.5rem;
+}
+
+.hero-slider__arrow--next {
+  right: 1.5rem;
+}
+
+/* ── Dot navigation ───────────────────────────────────────────────── */
+
+.hero-slider__dots {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 10;
+}
+
+.hero-slider__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.45);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.22s ease, transform 0.22s ease, width 0.22s ease;
+}
+
+.hero-slider__dot.is-active {
+  background: #ffffff;
+  width: 24px;
+  border-radius: 4px;
+}
+
+.hero-slider__dot:focus-visible {
+  outline: 2px solid #F0A500;
+  outline-offset: 3px;
+}
+
+/* ── Autoplay progress bar ────────────────────────────────────────── */
+
+.hero-slider__progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(255, 255, 255, 0.15);
+  z-index: 10;
+}
+
+.hero-slider__progress-bar {
+  height: 100%;
+  width: 0;
+  background: #F0A500;
+  transition: width linear;
+}
+
+/* ── Split layout ─────────────────────────────────────────────────── */
+
+.hero-slider__slide--split {
+  display: flex;
+}
+
+.hero-slider__split-media {
+  flex: 0 0 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Image fills the media panel */
+.hero-slider__slide--split .hero-slider__image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+}
+
+.hero-slider__split-panel {
+  flex: 1;
+  background-color: #002855;
+  display: flex;
+  align-items: center;
+  padding: 2.5rem clamp(2rem, 5vw, 4rem);
+}
+
+.hero-slider__split-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 460px;
+  width: 100%;
+}
+
+/* Description text (split layout) */
+.hero-slider__body {
+  font-size: 1rem;
+  line-height: 1.72;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: none;
+}
+
+.hero-slider__slide.is-active .hero-slider__body {
+  animation: shuffleUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.28s both;
+}
+
+/* Solid orange CTA button for split layout */
+.hero-slider__cta--solid {
+  align-self: flex-start;
+  background-color: #F0A500;
+  color: #1C1840;
+  padding: 0.75rem 1.375rem;
+  border-radius: 4px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  gap: 0.5rem;
+}
+
+.hero-slider__cta--solid:hover {
+  background-color: #D4920A;
+  transform: translateX(3px);
+}
+
+/* Strip the circle background from the icon in solid CTAs */
+.hero-slider__cta--solid .hero-slider__cta-icon {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background-color: transparent;
+  transition: none;
+}
+
+.hero-slider__cta--solid:hover .hero-slider__cta-icon {
+  background-color: transparent;
+  transform: none;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .hero-slider {
+    height: clamp(280px, 45vh, 400px);
+  }
+
+  .hero-slider__content-inner {
+    max-width: 90%;
+    margin-left: 1.25rem;
+    gap: 1.25rem;
+  }
+
+  .hero-slider__arrow {
+    width: 38px;
+    height: 38px;
+  }
+
+  .hero-slider__arrow--prev { left: 0.75rem; }
+  .hero-slider__arrow--next { right: 0.75rem; }
+
+  .hero-slider__overlay {
+    background: rgba(0, 15, 45, 0.55);
+  }
+
+  /* Split layout stacks vertically on mobile */
+  .hero-slider__slide--split {
+    flex-direction: column;
+  }
+
+  .hero-slider__split-media {
+    flex: 0 0 44%;
+    position: relative;
+  }
+
+  .hero-slider__split-panel {
+    flex: 1;
+    padding: 1.25rem 1.25rem;
+  }
+
+  .hero-slider__split-inner {
+    gap: 0.875rem;
+  }
+
+  .hero-slider__body {
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+}
+
+@media (max-width: 479px) {
+  .hero-slider__arrow {
+    display: none;
+  }
+
+  .hero-slider__split-media {
+    flex: 0 0 40%;
+  }
+}

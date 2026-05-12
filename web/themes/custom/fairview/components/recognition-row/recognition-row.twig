@@ -1,0 +1,47 @@
+{#
+/**
+ * Recognition row — text content left, certification badge right.
+ *
+ * Variables:
+ *   title       string
+ *   body        string
+ *   link_label  string
+ *   link_url    string
+ *   badge_url   string   path to badge/logo image
+ *   badge_alt   string
+ */
+#}
+<section class="recognition-row" aria-label="{{ title }}">
+  <div class="recognition-row__inner">
+
+    {# ── Left: text content ────────────────────────────────────── #}
+    <div class="recognition-row__content">
+      <h2 class="recognition-row__title">{{ title }}</h2>
+      {% if body %}
+        <p class="recognition-row__body">{{ body }}</p>
+      {% endif %}
+      {% if link_label and link_url %}
+        <a href="{{ link_url }}" class="recognition-row__link">
+          {{ link_label }}
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <path d="M3 8h10M9 4l4 4-4 4"
+                  stroke="currentColor" stroke-width="1.75"
+                  stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      {% endif %}
+    </div>
+
+    {# ── Right: certification badge ────────────────────────────── #}
+    {% if badge_url %}
+      <div class="recognition-row__badge-wrap">
+        <img class="recognition-row__badge"
+             src="{{ badge_url }}"
+             alt="{{ badge_alt|default('') }}"
+             loading="lazy"
+             decoding="async" />
+      </div>
+    {% endif %}
+
+  </div>
+</section>

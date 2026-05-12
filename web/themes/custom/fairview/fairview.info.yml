@@ -1,0 +1,33 @@
+name: Fairview
+type: theme
+description: 'Custom theme for M Health Fairview.'
+core_version_requirement: ^11
+base theme: haven_theme
+libraries:
+  - fairview/utility-bar
+  - fairview/primary-nav
+  - fairview/mega-menu
+  - fairview/hero-slider
+  - fairview/award-banner
+  - fairview/care-options
+  - fairview/feature-cards
+  - fairview/text-columns
+  - fairview/new-chapter
+  - fairview/recognition-row
+  - fairview/site-footer
+  - fairview/expertise-cols
+  - fairview/stats-row
+  - fairview/announcement-slider
+regions:
+  utility_bar: 'Utility Bar'
+  header: Header
+  # One region per mega-menu — CMS team assigns blocks here via Block Layout UI
+  mega_menu_schedule:   'Mega Menu: Schedule'
+  mega_menu_providers:  'Mega Menu: Providers'
+  mega_menu_locations:  'Mega Menu: Locations'
+  mega_menu_care:       'Mega Menu: Care & Treatment'
+  mega_menu_resources:  'Mega Menu: Resources'
+  mega_menu_about:      'Mega Menu: About Us'
+  content: Content
+  footer: Footer
+version: 1.0.0

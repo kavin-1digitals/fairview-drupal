@@ -1,0 +1,38 @@
+{#
+/**
+ * Stats row — title column + grouped stat columns.
+ *
+ * Variables:
+ *   title  string              Section heading
+ *   stats  array of:
+ *     number  string           Displayed value (e.g. "2.1M", "100+")
+ *     label   string           Descriptor below the number
+ *
+ * Stats are split into pairs — each pair becomes one content column.
+ * With 4 stats you get the classic 3-col layout: title | 2 stats | 2 stats.
+ */
+#}
+<section class="stats-row" aria-label="{{ title }}">
+  <div class="stats-row__inner">
+
+    {# ── Col 1: title ──────────────────────────────────────────── #}
+    <div class="stats-row__title-col">
+      <h2 class="stats-row__title">{{ title }}</h2>
+    </div>
+
+    {# ── Cols 2 +: one column per pair of stats ────────────────── #}
+    {% for group in stats|batch(2) %}
+      <div class="stats-row__col">
+        {% for stat in group %}
+          {% if stat %}
+            <div class="stats-row__stat">
+              <span class="stats-row__number">{{ stat.number }}</span>
+              <span class="stats-row__label">{{ stat.label }}</span>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endfor %}
+
+  </div>
+</section>

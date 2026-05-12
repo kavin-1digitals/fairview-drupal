@@ -1,0 +1,31 @@
+{#
+/**
+ * Text columns — label + N content columns side by side.
+ *
+ * Variables:
+ *   label    string   Large left-column label (e.g. "Practice Made Perfect")
+ *   columns  array of { heading, body }
+ */
+#}
+<section class="text-columns" aria-label="{{ label }}">
+  <div class="text-columns__inner">
+
+    {# ── Col 1: decorative label ───────────────────────────────── #}
+    <div class="text-columns__label-col">
+      <span class="text-columns__label">{{ label }}</span>
+    </div>
+
+    {# ── Content columns ───────────────────────────────────────── #}
+    {% for col in columns %}
+      <div class="text-columns__col">
+        {% if col.heading %}
+          <h3 class="text-columns__heading">{{ col.heading }}</h3>
+        {% endif %}
+        {% if col.body %}
+          <p class="text-columns__body">{{ col.body }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  </div>
+</section>

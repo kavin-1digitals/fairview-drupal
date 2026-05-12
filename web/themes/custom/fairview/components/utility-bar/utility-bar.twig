@@ -1,0 +1,59 @@
+<nav class="utility-bar" aria-label="{{ 'Utility navigation'|t }}">
+  <div class="utility-bar__inner">
+
+    {# Left group: affiliated sites / sub-brands #}
+    <ul class="utility-bar__group utility-bar__group--left" role="list">
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ left_links['m-health-fairview'].url|default('#') }}">
+          {{ 'M Health Fairview'|t }}
+        </a>
+      </li>
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ left_links['fairview-range'].url|default('#') }}">
+          {{ 'Fairview Range'|t }}
+        </a>
+      </li>
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ left_links['fairview-pharmacy'].url|default('#') }}">
+          {{ 'Fairview Pharmacy'|t }}
+        </a>
+      </li>
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ left_links['grand-itasca'].url|default('#') }}">
+          {{ 'Grand Itasca'|t }}
+        </a>
+      </li>
+    </ul>
+
+    {# Right group: utility actions #}
+    <ul class="utility-bar__group utility-bar__group--right" role="list">
+      <li class="utility-bar__item">
+        <a class="utility-bar__link utility-bar__link--language" href="{{ right_links['language'].url|default('#') }}"
+           aria-label="{{ 'Select language'|t }}">
+          {{ 'Language'|t }}
+        </a>
+      </li>
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ right_links['contact-us'].url|default('#') }}">
+          {{ 'Contact Us'|t }}
+        </a>
+      </li>
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ right_links['news-stories'].url|default('#') }}">
+          {{ 'News &amp; Stories'|t }}
+        </a>
+      </li>
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ right_links['careers'].url|default('#') }}">
+          {{ 'Careers'|t }}
+        </a>
+      </li>
+      <li class="utility-bar__item">
+        <a class="utility-bar__link" href="{{ right_links['for-medical-professionals'].url|default('#') }}">
+          {{ 'For Medical Professionals'|t }}
+        </a>
+      </li>
+    </ul>
+
+  </div>
+</nav>

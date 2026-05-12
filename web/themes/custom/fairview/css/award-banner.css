@@ -1,0 +1,78 @@
+/* ── Award / Announcement Banner ─────────────────────────────────── */
+
+.award-banner {
+  background-color: #f0f5fb;
+  width: 100%;
+  border-bottom: 1px solid #dce6f0;
+}
+
+.award-banner__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* ── Left: Heading ────────────────────────────────────────────────── */
+
+.award-banner__heading {
+  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: #002855;
+  margin: 0;
+}
+
+/* ── Right: Body + links ──────────────────────────────────────────── */
+
+.award-banner__body {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: #374151;
+  margin: 0 0 1.5rem 0;
+}
+
+.award-banner__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.award-banner__link {
+  color: #0060A0;
+  font-size: 0.9375rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-thickness: 1.5px;
+  transition: color 0.14s ease;
+}
+
+.award-banner__link:hover,
+.award-banner__link:focus {
+  color: #004880;
+  outline: none;
+}
+
+.award-banner__link:focus-visible {
+  outline: 2px solid #0060A0;
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+
+@media (max-width: 767px) {
+  .award-banner__inner {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    padding: 1.5rem 1.25rem;
+  }
+}

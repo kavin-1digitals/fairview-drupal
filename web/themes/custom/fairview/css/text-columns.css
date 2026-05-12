@@ -1,0 +1,82 @@
+/* ── Text Columns ────────────────────────────────────────────────── */
+
+.text-columns {
+  background-color: #FFF8F3;   /* warm orangish-white */
+  border-top: 1px solid #F0E0D0;
+  border-bottom: 1px solid #F0E0D0;
+  padding: 3.5rem 1.5rem;
+}
+
+.text-columns__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1.5fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+/* ── Label column ─────────────────────────────────────────────────── */
+
+.text-columns__label-col {
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.25rem;
+}
+
+.text-columns__label {
+  font-size: clamp(1.375rem, 2.2vw, 1.875rem);
+  font-weight: 800;
+  line-height: 1.2;
+  color: #1C1840;
+  letter-spacing: -0.01em;
+}
+
+/* ── Content columns ──────────────────────────────────────────────── */
+
+.text-columns__col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.125rem;
+}
+
+.text-columns__heading {
+  font-size: 1.125rem;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #002855;
+  margin: 0;
+}
+
+.text-columns__body {
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  color: #4B5563;
+  margin: 0;
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+
+@media (max-width: 1023px) {
+  .text-columns__inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+  }
+
+  .text-columns__label-col {
+    grid-column: 1 / -1;
+    padding-top: 0;
+  }
+}
+
+@media (max-width: 639px) {
+  .text-columns__inner {
+    grid-template-columns: 1fr;
+    gap: 1.75rem;
+  }
+
+  .text-columns {
+    padding: 2.5rem 1.25rem;
+  }
+}

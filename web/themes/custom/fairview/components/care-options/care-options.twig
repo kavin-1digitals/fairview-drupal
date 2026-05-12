@@ -1,0 +1,30 @@
+{#
+/**
+ * Care options — two side-by-side panels.
+ *
+ * Variables:
+ *   panels — array of:
+ *     heading     string
+ *     body        string
+ *     cta_label   string
+ *     cta_url     string
+ *     modifier    string  CSS modifier: 'primary' | 'secondary'
+ */
+#}
+<section class="care-options" aria-label="{{ 'Care options'|t }}">
+  {% for panel in panels %}
+    <div class="care-options__panel care-options__panel--{{ panel.modifier|default('primary') }}">
+      <div class="care-options__panel-inner">
+        <h2 class="care-options__heading">{{ panel.heading }}</h2>
+        {% if panel.body %}
+          <p class="care-options__body">{{ panel.body }}</p>
+        {% endif %}
+        {% if panel.cta_label and panel.cta_url %}
+          <a href="{{ panel.cta_url }}" class="care-options__btn">
+            {{ panel.cta_label }}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  {% endfor %}
+</section>

@@ -1,0 +1,77 @@
+<?php
+
+/**
+ * @file
+ * Hooks for the Fairview Navigation module.
+ *
+ * Bridges the "Fairview Mega Menu" block content type to the
+ * mega-menu.twig component in the Fairview theme.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_theme().
+ */
+function fairview_navigation_theme(): array {
+  return [
+    'block__block_content__mega_menu' => [
+      'base hook' => 'block',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_preprocess_block() for Fairview Mega Menu blocks.
+ *
+ * Maps block content fields → component variables consumed by mega-menu.twig.
+ */
+function fairview_navigation_preprocess_block(array &$variables): void {
+  if (($variables['base_plugin_id'] ?? '') !== 'block_content') {
+    return;
+  }
+
+  /** @var \Drupal\block_content\BlockContentInterface|null $block */
+  $block = $variables['elements']['#block_content'] ?? NULL;
+  if (!$block || $block->bundle() !== 'mega_menu') {
+    return;
+  }
+
+  // ── Column 1: Intro panel ─────────────────────────────────────────
+  $variables['intro_title']       = $block->get('field_mm_intro_title')->value ?? '';
+  $variables['intro_description'] = $block->get('field_mm_intro_description')->value ?? '';
+
+  $cta = $block->get('field_mm_intro_cta')->first();
+  $variables['intro_cta_label'] = $cta ? ($cta->title ?: '') : '';
+  $variables['intro_cta_url']   = $cta ? Url::fromUri($cta->uri)->toString() : '#';
+
+  // ── Column 2: Quick links ─────────────────────────────────────────
+  $variables['quick_links_heading'] = $block->get('field_mm_links_heading')->value ?? '';
+
+  $quick_links = [];
+  foreach ($block->get('field_mm_quick_links') as $item) {
+    $quick_links[] = [
+      'label' => $item->title ?: '',
+      'url'   => Url::fromUri($item->uri)->toString(),
+    ];
+  }
+  $variables['quick_links'] = $quick_links;
+
+  $view_all = $block->get('field_mm_view_all')->first();
+  $variables['view_all_label'] = $view_all ? ($view_all->title ?: '') : '';
+  $variables['view_all_url']   = $view_all ? Url::fromUri($view_all->uri)->toString() : '#';
+
+  // ── Column 3: Featured image ──────────────────────────────────────
+  $image_field = $block->get('field_mm_featured_image')->first();
+  if ($image_field) {
+    /** @var \Drupal\file\FileInterface $file */
+    $file = $image_field->entity;
+    $variables['featured_image_url'] = $file ? \Drupal::service('file_url_generator')->generateAbsoluteString($file->getFileUri()) : '';
+    $variables['featured_image_alt'] = $image_field->alt ?: '';
+  }
+
+  $variables['featured_text'] = $block->get('field_mm_featured_text')->value ?? '';
+
+  $feat_link = $block->get('field_mm_featured_link')->first();
+  $variables['featured_url'] = $feat_link ? Url::fromUri($feat_link->uri)->toString() : '#';
+}

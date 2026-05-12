@@ -1,0 +1,115 @@
+<?php
+
+/**
+ * @file
+ * Install hooks — creates the "Fairview Mega Menu" block content type and fields.
+ *
+ * CMS team workflow after enabling this module:
+ *   1. Structure → Block layout → Custom block library → Add block → Fairview Mega Menu
+ *   2. Fill in the fields (title, description, links, image, …)
+ *   3. Structure → Block layout → Fairview theme
+ *   4. Assign the block to the matching "Mega Menu: …" region (e.g. "Mega Menu: Schedule")
+ *   5. Flush caches.
+ */
+
+use Drupal\block_content\Entity\BlockContentType;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_install().
+ */
+function fairview_navigation_install(): void {
+  _fairview_navigation_create_block_type();
+  _fairview_navigation_add_fields();
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function fairview_navigation_uninstall(): void {
+  // Remove field instances and storages created by this module.
+  $field_names = [
+    'field_mm_intro_title',
+    'field_mm_intro_description',
+    'field_mm_intro_cta',
+    'field_mm_links_heading',
+    'field_mm_quick_links',
+    'field_mm_view_all',
+    'field_mm_featured_image',
+    'field_mm_featured_text',
+    'field_mm_featured_link',
+  ];
+
+  foreach ($field_names as $name) {
+    $instance = FieldConfig::loadByName('block_content', 'mega_menu', $name);
+    if ($instance) {
+      $instance->delete();
+    }
+    $storage = FieldStorageConfig::loadByName('block_content', $name);
+    if ($storage) {
+      $storage->delete();
+    }
+  }
+
+  // Delete the block content type.
+  $type = BlockContentType::load('mega_menu');
+  if ($type) {
+    $type->delete();
+  }
+}
+
+// ── Helper functions ────────────────────────────────────────────────
+
+function _fairview_navigation_create_block_type(): void {
+  if (BlockContentType::load('mega_menu')) {
+    return;
+  }
+  BlockContentType::create([
+    'id'          => 'mega_menu',
+    'label'       => 'Fairview Mega Menu',
+    'description' => 'Structured 3-column mega menu for primary navigation dropdowns.',
+    'revision'    => TRUE,
+  ])->save();
+}
+
+function _fairview_navigation_add_fields(): void {
+  $fields = [
+    // Column 1 — Intro panel
+    ['field_mm_intro_title',       'string',    'Intro Title',       1],
+    ['field_mm_intro_description', 'text_long', 'Intro Description', 1],
+    ['field_mm_intro_cta',         'link',      'Intro CTA Button',  1],
+    // Column 2 — Quick links
+    ['field_mm_links_heading',     'string',    'Links Heading',     1],
+    ['field_mm_quick_links',       'link',      'Quick Links',       -1],
+    ['field_mm_view_all',          'link',      'View All Link',     1],
+    // Column 3 — Featured image
+    ['field_mm_featured_image',    'image',     'Featured Image',    1],
+    ['field_mm_featured_text',     'string',    'Featured Text',     1],
+    ['field_mm_featured_link',     'link',      'Featured Link',     1],
+  ];
+
+  foreach ($fields as [$name, $type, $label, $cardinality]) {
+    // Field storage (shared across bundles).
+    if (!FieldStorageConfig::loadByName('block_content', $name)) {
+      FieldStorageConfig::create([
+        'field_name'  => $name,
+        'entity_type' => 'block_content',
+        'type'        => $type,
+        'cardinality' => $cardinality,
+        'settings'    => $type === 'link' ? ['link_type' => 0x10, 'title' => 2] : [],
+      ])->save();
+    }
+
+    // Field instance on the mega_menu bundle.
+    if (!FieldConfig::loadByName('block_content', 'mega_menu', $name)) {
+      FieldConfig::create([
+        'field_name'  => $name,
+        'entity_type' => 'block_content',
+        'bundle'      => 'mega_menu',
+        'label'       => $label,
+        'required'    => FALSE,
+      ])->save();
+    }
+  }
+}

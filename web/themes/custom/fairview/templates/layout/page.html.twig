@@ -1,0 +1,440 @@
+{#
+/**
+ * @file
+ * Fairview theme page template.
+ *
+ * Renders the utility bar and primary navigation (with mega menus),
+ * then the main page body.
+ *
+ * Mega menu override workflow for CMS team:
+ *   1. Extend → enable "Fairview Navigation" module.
+ *   2. Structure → Block layout → Custom block library → Add block → "Fairview Mega Menu".
+ *   3. Fill in the structured fields.
+ *   4. Structure → Block layout → Fairview theme → assign the block to the
+ *      matching "Mega Menu: …" region (e.g. "Mega Menu: Schedule").
+ *   5. Flush caches — the CMS block now replaces the built-in default below.
+ */
+#}
+
+{# ── Capture mega menu content (CMS block OR built-in default) ──────── #}
+
+{# Schedule #}
+{% set mm_schedule %}
+  {% if page.mega_menu_schedule %}
+    {{ page.mega_menu_schedule }}
+  {% else %}
+    {% include '@fairview/components/mega-menu/mega-menu.twig' with {
+      intro_title:         'Get Care',
+      intro_description:   "Uncertain about which care option to choose? Visit our 'Get Care' section and find the best care for your needs.",
+      intro_cta_label:     'Help Me Choose',
+      intro_cta_url:       '/schedule/help-me-choose',
+      quick_links_heading: 'Browse Care Options',
+      quick_links: [
+        { label: 'Get Care Today',          url: '/care/today' },
+        { label: 'Book a Lab Visit',        url: '/care/lab' },
+        { label: 'eVisits',                 url: '/care/evisits' },
+        { label: 'Routine Preventive Visit',url: '/care/preventive' },
+        { label: 'Symptom Checker',         url: '/care/symptoms' },
+      ],
+      view_all_label:      'View All Care Options',
+      view_all_url:        '/care',
+      featured_image_url:  base_path ~ directory ~ '/images/schedule_promo.webp',
+      featured_image_alt:  'Woman booking a virtual appointment on a tablet device',
+      featured_text:       'Same-day Virtual Urgent Care Appointments',
+      featured_url:        '/care/virtual-urgent-care',
+    } only %}
+  {% endif %}
+{% endset %}
+
+{# Providers #}
+{% set mm_providers %}
+  {% if page.mega_menu_providers %}
+    {{ page.mega_menu_providers }}
+  {% else %}
+    {% include '@fairview/components/mega-menu/mega-menu.twig' with {
+      intro_title:         'Providers',
+      intro_description:   'Embark on your healthcare journey by finding the perfect provider to guide you.',
+      intro_cta_label:     'View All Providers',
+      intro_cta_url:       '/providers',
+      quick_links_heading: 'Providers by Specialty',
+      quick_links: [
+        { label: 'Cancer Care',    url: '/providers/cancer-care' },
+        { label: 'Heart Care',     url: '/providers/heart-care' },
+        { label: 'Mental Health',  url: '/providers/mental-health' },
+        { label: 'Orthopedics',    url: '/providers/orthopedics' },
+        { label: 'Primary Care',   url: '/providers/primary-care' },
+        { label: "Women's Health", url: '/providers/womens-health' },
+      ],
+      view_all_label:      'View All Specialties',
+      view_all_url:        '/providers/specialties',
+      featured_image_url:  base_path ~ directory ~ '/images/primary_care_promo.avif',
+      featured_image_alt:  'Woman doctor providing information to a male patient',
+      featured_text:       'Primary Care',
+      featured_url:        '/providers/primary-care',
+    } only %}
+  {% endif %}
+{% endset %}
+
+{# Locations #}
+{% set mm_locations %}
+  {% if page.mega_menu_locations %}
+    {{ page.mega_menu_locations }}
+  {% else %}
+    {% include '@fairview/components/mega-menu/mega-menu.twig' with {
+      intro_title:         'Locations',
+      intro_description:   'With a presence everywhere, discover the most convenient locations for you and your family, no matter your needs.',
+      intro_cta_label:     'Search Locations',
+      intro_cta_url:       '/locations',
+      quick_links_heading: '',
+      quick_links: [
+        { label: 'Birthplace',     url: '/locations/birthplace' },
+        { label: 'Labs',           url: '/locations/labs' },
+        { label: 'Pharmacies',     url: '/locations/pharmacies' },
+        { label: 'Urgent Care',    url: '/locations/urgent-care' },
+        { label: 'Emergency Care', url: '/locations/emergency-care' },
+      ],
+      view_all_label:      'View All Location Types',
+      view_all_url:        '/locations/types',
+      featured_image_url:  base_path ~ directory ~ '/images/locations_promo.avif',
+      featured_image_alt:  'A parent and their child at the doctor\'s office, smiling',
+      featured_text:       'Family Medicine',
+      featured_url:        '/locations/family-medicine',
+    } only %}
+  {% endif %}
+{% endset %}
+
+{# Care & Treatment #}
+{% set mm_care %}
+  {% if page.mega_menu_care %}
+    {{ page.mega_menu_care }}
+  {% else %}
+    {% include '@fairview/components/mega-menu/mega-menu.twig' with {
+      intro_title:         'Care & Treatment',
+      intro_description:   'Discover the range of conditions, treatments, services, and specialties we offer at M Health Fairview, providing you with the knowledge needed to make informed decisions for your healthcare.',
+      intro_cta_label:     'View All Care',
+      intro_cta_url:       '/care-treatment',
+      quick_links_heading: 'Key Departments & Specialties',
+      quick_links: [
+        { label: 'Birthplace',   url: '/care-treatment/birthplace' },
+        { label: 'Cancer Care',  url: '/care-treatment/cancer-care' },
+        { label: 'Heart Care',   url: '/care-treatment/heart-care' },
+        { label: 'Pediatrics',   url: '/care-treatment/pediatrics' },
+        { label: 'Primary Care', url: '/care-treatment/primary-care' },
+      ],
+      view_all_label:      'View More',
+      view_all_url:        '/care-treatment/specialties',
+      featured_image_url:  base_path ~ directory ~ '/images/care_promo.avif',
+      featured_image_alt:  'Two adults navigating a health website from the comfort of their own home',
+      featured_text:       'Health Library',
+      featured_url:        '/resources/health-library',
+    } only %}
+  {% endif %}
+{% endset %}
+
+{# Resources #}
+{% set mm_resources %}
+  {% if page.mega_menu_resources %}
+    {{ page.mega_menu_resources }}
+  {% else %}
+    {% include '@fairview/components/mega-menu/mega-menu.twig' with {
+      intro_title:         'Resources',
+      intro_description:   'Utilize available resources to effectively manage your health and enhance your healthcare experiences.',
+      intro_cta_label:     'Go to Resources',
+      intro_cta_url:       '/resources',
+      quick_links_heading: 'Some Resources for You',
+      quick_links: [
+        { label: 'Billing & Financial Resources', url: '/resources/billing' },
+        { label: 'FAQs',                          url: '/resources/faqs' },
+        { label: 'For Medical Professionals',     url: '/medical-professionals' },
+        { label: 'Health Library',                url: '/resources/health-library' },
+        { label: 'Request Medical Records',       url: '/resources/medical-records' },
+      ],
+      view_all_label:      'View All Resources',
+      view_all_url:        '/resources',
+      featured_image_url:  base_path ~ directory ~ '/images/resources_promo.avif',
+      featured_image_alt:  'A cell phone showing the Fairview App',
+      featured_text:       'M Health Fairview Patient App',
+      featured_url:        '/resources/patient-app',
+    } only %}
+  {% endif %}
+{% endset %}
+
+{# About Us — data to be supplied in a future prompt #}
+{% set mm_about %}
+  {% if page.mega_menu_about %}
+    {{ page.mega_menu_about }}
+  {% endif %}
+{% endset %}
+
+{# ── Top utility bar ─────────────────────────────────────────────────── #}
+{% if page.utility_bar %}
+  {{ page.utility_bar }}
+{% else %}
+  {% include '@fairview/components/utility-bar/utility-bar.twig' with {
+    left_links: {
+      'm-health-fairview': { url: 'https://www.mhealthfairview.org' },
+      'fairview-range':    { url: 'https://www.fairviewrange.org' },
+      'fairview-pharmacy': { url: 'https://www.fairviewpharmacy.com' },
+      'grand-itasca':      { url: 'https://www.granditasca.org' }
+    },
+    right_links: {
+      'language':                  { url: '#language' },
+      'contact-us':                { url: '/contact' },
+      'news-stories':              { url: '/news' },
+      'careers':                   { url: '/careers' },
+      'for-medical-professionals': { url: '/medical-professionals' }
+    }
+  } only %}
+{% endif %}
+
+{# ── Primary navigation with mega menus ─────────────────────────────── #}
+{% include '@fairview/components/primary-nav/primary-nav.twig' with {
+  logo_url:   base_path ~ directory ~ '/images/fairview_logo.svg',
+  front_page: front_page,
+  site_name:  'Fairview',
+  mega_menus: {
+    schedule:  mm_schedule,
+    providers: mm_providers,
+    locations: mm_locations,
+    care:      mm_care,
+    resources: mm_resources,
+    about:     mm_about,
+  }
+} only %}
+
+{% block page_body %}
+
+{# ── Hero slider — front page only ──────────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/hero-slider/hero-slider.twig' with {
+    slides: [
+      {
+        image_url:  base_path ~ directory ~ '/images/homepage_hero1.webp',
+        image_alt:  'A new chapter for Fairview',
+        heading:    'A New Chapter for Fairview',
+        cta_label:  'Learn More',
+        cta_url:    '/new-chapter',
+      },
+      {
+        image_url:  base_path ~ directory ~ '/images/homepage_hero2.jpg',
+        image_alt:  'Leading the way to better healthcare',
+        heading:    'Leading The Way To Better Healthcare',
+      },
+      {
+        layout:     'split',
+        image_url:  base_path ~ directory ~ '/images/homepage_hero3.webp',
+        image_alt:  'M Health Fairview Pediatrics',
+        heading:    'Meet M Health Fairview Pediatrics',
+        body:       "Our children's healthcare system brings together the brightest minds and biggest hearts in medicine. Everything we do is centered around giving your child a strong start and a strong future.",
+        cta_label:  'Get Care for Your Child',
+        cta_url:    '/care-treatment/pediatrics',
+      },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Award banner — front page only ─────────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/award-banner/award-banner.twig' with {
+    heading: 'Fairview recognized with national award',
+    body:    "Fairview is honored to be the 2025 recipient of the American Hospital Association’s Foster G. McGaw Prize. Our community work does not begin or end with this prize. Rather, it affirms our deep commitment to our diverse neighbors and strengthens our resolve to continue and expand our efforts.",
+    links: [
+      {
+        label: 'Learn more about the prize and our work in community',
+        url:   '/about/foster-mcgaw-prize',
+      },
+      {
+        label: "Review our Community Impact Report, recognizing Fairview’s investment in the community",
+        url:   '/about/community-impact-report',
+      },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Care options — front page only ─────────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/care-options/care-options.twig' with {
+    panels: [
+      {
+        modifier:  'primary',
+        heading:   'Helping You Choose the Right Care',
+        body:      "Healthcare doesn't have to be complicated. We're here to help you get the right care, where and when you need it. Get started by reviewing all of our different care options in one place and deciding what works best for you.",
+        cta_label: 'Get Care',
+        cta_url:   '/care',
+      },
+      {
+        modifier:  'secondary',
+        heading:   'Got the Flu? Try an E-Visit',
+        body:      'E-visits are a quick and convenient care option for flu-like symptoms.',
+        cta_label: 'Start an e-visit',
+        cta_url:   '/care/evisits',
+      },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Feature cards — front page only ────────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/feature-cards/feature-cards.twig' with {
+    cards: [
+      {
+        image_url: base_path ~ directory ~ '/images/providers.svg',
+        image_alt: 'Providers illustration',
+        body:      'Browse our extensive list of best-in-class providers and specialists.',
+        cta_label: 'View Providers',
+        cta_url:   '/providers',
+      },
+      {
+        image_url: base_path ~ directory ~ '/images/locations.svg',
+        image_alt: 'Locations illustration',
+        body:      'Discover our facilities nearest to you, covering the Northstar State from border to border.',
+        cta_label: 'View Locations',
+        cta_url:   '/locations',
+      },
+      {
+        image_url: base_path ~ directory ~ '/images/services.svg',
+        image_alt: 'Services illustration',
+        body:      'We cover an extensive list of conditions, treatments, and services.',
+        cta_label: 'View Services',
+        cta_url:   '/services',
+      },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Text columns — front page only ─────────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/text-columns/text-columns.twig' with {
+    label: 'Practice Made Perfect',
+    columns: [
+      {
+        heading: 'Improving Patient Outcomes',
+        body: 'While there are no promises in medicine, there are guarantees and ours is to always relentlessly advocate for our patients. We are constantly improving ourselves by letting past results inform future decisions.',
+      },
+      {
+        heading: 'On-Demand Access to Care',
+        body: "Wellness should have no waiting line. When patients find themselves in need of care, any amount of delay can only add to worry. That's why we strive for zero latency care: when they need it, where they need it.",
+      },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Announcement slider — front page only ───────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/announcement-slider/announcement-slider.twig' with {
+    slides: [
+      {
+        label:     'Announcement',
+        heading:   'An Easier Way to Pay',
+        body:      'Our new payment option allows you to pay via text message if you have an active MyChart account and a saved payment method.',
+        cta_label: 'learn more about',
+        cta_url:   '/resources/billing',
+      },
+      {
+        label:     'Announcement',
+        heading:   '5 things to know about heart failure prevention and treatment',
+        body:      "Heart failure happens when the heart weakens over time. While there's no cure, you can learn more about what you can do to prevent and treat it here.",
+        cta_label: 'learn more about',
+        cta_url:   '/care-treatment/heart-care',
+      },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Expertise columns — front page only ─────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/expertise-cols/expertise-cols.twig' with {
+    title: 'Backed by Expertise',
+    cols: [
+      {
+        image_url: base_path ~ directory ~ '/images/backed_by_expertise1.avif',
+        image_alt: '600 Active Research Studies',
+        heading:   '600 Active Research Studies',
+        body:      "When we say we're using techniques that are at the forefront of medicine, we say that because we're right there ourselves, developing those techniques. When we're not caring for patients, we're caring for the future.",
+      },
+      {
+        image_url: base_path ~ directory ~ '/images/backed_by_expertise2.avif',
+        image_alt: 'Top Rated Providers',
+        heading:   'Top Rated Providers',
+        body:      "No amount of technological upgrades or program expansions guarantees a customer feels satisfied with their treatment. That takes compassionate care. The results are clear: our network's clinics, facilities, and staff are consistently rated at the top.",
+      },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Stats row — front page only ─────────────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/stats-row/stats-row.twig' with {
+    title: 'Healing Our Community',
+    stats: [
+      { number: '2.1M', label: 'Yearly Patients' },
+      { number: '142',  label: 'Locations' },
+      { number: '100+', label: 'Specialties' },
+      { number: '36k+', label: 'Providers and Affiliates' },
+    ]
+  } only %}
+{% endif %}
+
+{# ── Recognition row — front page only ───────────────────────────────── #}
+{% if is_front %}
+  {% include '@fairview/components/recognition-row/recognition-row.twig' with {
+    title:      "One of America's Greatest Workplaces for Diversity",
+    body:       "Fairview Health Services was once again honored as one of \"America's Greatest Workplaces for Inclusion and Diversity\" by Newsweek in 2025. The national list includes more than 1,500 organizations of various sizes and types. Fairview last earned this award in 2023.",
+    link_label: 'Learn More',
+    link_url:   '/about/diversity-award',
+    badge_url:  base_path ~ directory ~ '/images/newsweek_logo.avif',
+    badge_alt:  "Newsweek America's Greatest Workplaces for Diversity 2025",
+  } only %}
+{% endif %}
+
+{# ── Page body ───────────────────────────────────────────────────────── #}
+<div class="layout-container bg-background">
+
+  {% if page.header %}
+    <header role="banner">
+      {{ page.header }}
+    </header>
+  {% endif %}
+
+  {% if not rendered_by_canvas and (breadcrumb or title) %}
+    <div class="container pb-4">
+      {{ breadcrumb }}
+      {{ title }}
+    </div>
+  {% endif %}
+
+  {{ page.primary_menu }}
+  {{ page.secondary_menu }}
+  {{ page.breadcrumb }}
+  {{ page.highlighted }}
+  {{ page.help }}
+
+  <main role="main">
+    <a id="main-content" tabindex="-1"></a>
+
+    <div class="layout-content">
+      {{ page.content }}
+    </div>
+
+    {% if page.sidebar_first %}
+      <aside class="layout-sidebar-first" role="complementary">
+        {{ page.sidebar_first }}
+      </aside>
+    {% endif %}
+
+    {% if page.sidebar_second %}
+      <aside class="layout-sidebar-second" role="complementary">
+        {{ page.sidebar_second }}
+      </aside>
+    {% endif %}
+  </main>
+
+
+</div>
+
+{# ── Site footer — full width, dark ──────────────────────────────────── #}
+{% include '@fairview/components/site-footer/site-footer.twig' with {
+  content: page.footer
+} only %}
+
+{% endblock %}

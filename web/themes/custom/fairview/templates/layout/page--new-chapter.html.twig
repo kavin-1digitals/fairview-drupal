@@ -1,0 +1,115 @@
+{% extends '@fairview/templates/layout/page.html.twig' %}
+
+{% block page_body %}
+
+{# ── Hero ───────────────────────────────────────────────────────────── #}
+<div class="nc-hero">
+  <img class="nc-hero__img"
+       src="{{ base_path ~ directory ~ '/images/new_chapter.avif' }}"
+       alt="A New Chapter for Fairview"
+       loading="eager"
+       decoding="async" />
+  <div class="nc-hero__overlay" aria-hidden="true"></div>
+  <div class="nc-hero__caption">
+    <div class="nc-hero__caption-inner">
+      <h1 class="nc-hero__title">A New Chapter for Fairview</h1>
+    </div>
+  </div>
+</div>
+
+{# ── Intro paragraphs ────────────────────────────────────────────────── #}
+<section class="nc-intro">
+  <div class="nc-intro__inner">
+    <p class="nc-intro__p">Throughout 2026, we're introducing exciting updates across our healthcare system, including a fresh look and feel for the Fairview brand that reflects our commitment to healthcare with you at the center.</p>
+    <p class="nc-intro__p">Over the coming months, you'll see updated signage, refreshed spaces, and a visual identity that better reflects our renewed mission and the future we are building together.</p>
+  </div>
+</section>
+
+{# ── Pillars: Who We Are / Mission / Vision ──────────────────────────── #}
+<section class="nc-pillars">
+  <div class="nc-pillars__inner">
+
+    <div class="nc-pillar">
+      <img class="nc-pillar__icon"
+           src="{{ base_path ~ directory ~ '/images/who_we_are.avif' }}"
+           alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <h2 class="nc-pillar__heading">Who We Are</h2>
+      <p class="nc-pillar__body">Fairview is proud to be an anchor institution in this community. For more than 100 years, we have been here, caring for families, advancing health, and serving 1.2 million patients with compassion and excellence. As one of Minnesota's largest employers, we are deeply committed to investing in and giving back to the communities we serve.</p>
+    </div>
+
+    <div class="nc-pillar">
+      <img class="nc-pillar__icon"
+           src="{{ base_path ~ directory ~ '/images/our_mission.avif' }}"
+           alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <h2 class="nc-pillar__heading">Our Mission</h2>
+      <p class="nc-pillar__body">Our renewed mission is simple and powerful: to make health happen with human compassion.</p>
+    </div>
+
+    <div class="nc-pillar">
+      <img class="nc-pillar__icon"
+           src="{{ base_path ~ directory ~ '/images/our_vision.avif' }}"
+           alt="" aria-hidden="true" loading="lazy" decoding="async" />
+      <h2 class="nc-pillar__heading">Our Vision</h2>
+      <p class="nc-pillar__body">Our vision is bold: to be the most human-centered healthcare system.</p>
+    </div>
+
+  </div>
+</section>
+
+{# ── Headshot + content ──────────────────────────────────────────────── #}
+<section class="nc-quote">
+  <div class="nc-quote__inner">
+
+    <div class="nc-quote__photo-col">
+      <img class="nc-quote__photo"
+           src="{{ base_path ~ directory ~ '/images/headshot.avif' }}"
+           alt="Pediatrician Munir Abdalla, MD"
+           loading="lazy" decoding="async" />
+      <p class="nc-quote__attribution">Pediatrician Munir Abdalla, MD</p>
+    </div>
+
+    <div class="nc-quote__content">
+      <p class="nc-quote__p">Every day, more than 34,000 team members bring warmth, skill, and a shared purpose to make health happen inside our hospitals and clinics and beyond our walls in communities across Minnesota and Wisconsin.</p>
+      <p class="nc-quote__p">We believe every patient and family choosing Fairview should feel known, safe, and cared for—and that communities we serve should benefit from our efforts. Fairview is not just a health system. We're a trusted neighbor, working tirelessly to provide care during everyday moments and life's biggest milestones.</p>
+    </div>
+
+  </div>
+</section>
+
+{# ── What's Changing ─────────────────────────────────────────────────── #}
+<section class="nc-changes">
+  <div class="nc-changes__inner">
+
+    <h2 class="nc-changes__heading">What's Changing, and What's Not</h2>
+
+    <p class="nc-changes__body">As we usher in a new chapter in Fairview's history, you may begin to notice visual updates at different locations at different times. Some hospitals and clinics will display our refreshed brand sooner than others—and that's expected. What we want you to know is while our look may evolve, who we are—and the care you receive—remains the same.</p>
+
+    <p class="nc-changes__subheading">What is not changing:</p>
+    <ul class="nc-changes__list">
+      <li class="nc-changes__item">The expertise of your care teams</li>
+      <li class="nc-changes__item">The compassion you experience</li>
+      <li class="nc-changes__item">The comprehensive services and care you rely on</li>
+      <li class="nc-changes__item">Your appointments, providers, and access to care remain the same. This includes access to all University of Minnesota Physicians providers, who will continue to see patients throughout our health system.</li>
+    </ul>
+
+  </div>
+</section>
+
+{# ── Closing ─────────────────────────────────────────────────────────── #}
+<section class="nc-closing">
+  <div class="nc-closing__inner">
+    <p class="nc-closing__p">These updates are about clarity, connection, and continuing to lead with purpose. They reflect the strength of our health system and our commitment to serving our communities for decades to come.</p>
+    <p class="nc-closing__p">This is just the beginning. We will continue to share updates as this new chapter unfolds. Thank you for trusting Fairview with your care. Together, we're making health happen.</p>
+    <img class="nc-closing__logo"
+         src="{{ base_path ~ directory ~ '/images/fairview_logo.svg' }}"
+         alt="Fairview"
+         loading="lazy" />
+  </div>
+</section>
+
+{# ── Site footer ─────────────────────────────────────────────────────── #}
+{% include '@fairview/components/site-footer/site-footer.twig' with {
+  content: page.footer
+} only %}
+
+{% endblock %}

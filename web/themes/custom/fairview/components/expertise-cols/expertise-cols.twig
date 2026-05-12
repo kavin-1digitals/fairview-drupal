@@ -1,0 +1,42 @@
+{#
+/**
+ * Expertise columns — title + image/text content pairs.
+ *
+ * Variables:
+ *   title    string
+ *   cols     array of:
+ *     image_url   string
+ *     image_alt   string
+ *     heading     string
+ *     body        string
+ */
+#}
+<section class="expertise-cols" aria-label="{{ title }}">
+  <div class="expertise-cols__inner">
+
+    {# ── Col 1: title ──────────────────────────────────────────── #}
+    <div class="expertise-cols__title-col">
+      <h2 class="expertise-cols__title">{{ title }}</h2>
+    </div>
+
+    {# ── Content columns ───────────────────────────────────────── #}
+    {% for col in cols %}
+      <div class="expertise-cols__col">
+        {% if col.image_url %}
+          <img class="expertise-cols__image"
+               src="{{ col.image_url }}"
+               alt="{{ col.image_alt|default('') }}"
+               loading="lazy"
+               decoding="async" />
+        {% endif %}
+        {% if col.heading %}
+          <h3 class="expertise-cols__heading">{{ col.heading }}</h3>
+        {% endif %}
+        {% if col.body %}
+          <p class="expertise-cols__body">{{ col.body }}</p>
+        {% endif %}
+      </div>
+    {% endfor %}
+
+  </div>
+</section>
