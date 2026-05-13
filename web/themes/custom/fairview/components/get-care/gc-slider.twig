@@ -1,0 +1,35 @@
+{#
+/**
+ * @file
+ * Horizontal card slider (placeholder images).
+ */
+#}
+<section class="gc-slider" data-gc-slider aria-labelledby="gc-slider-heading">
+  <div class="gc-slider__head">
+    <h2 id="gc-slider-heading" class="gc-slider__heading">{{ 'More ways to get care'|t }}</h2>
+    <div class="gc-slider__nav">
+      <button type="button" class="gc-slider__btn gc-slider__btn--prev" data-gc-prev aria-label="{{ 'Previous'|t }}">
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button type="button" class="gc-slider__btn gc-slider__btn--next" data-gc-next aria-label="{{ 'Next'|t }}">
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+  </div>
+  <div class="gc-slider__viewport">
+    <div class="gc-slider__track" data-gc-track>
+      {% for slide in gc_slider_cards|default([]) %}
+        <article class="gc-slide">
+          <div class="gc-slide__media" aria-hidden="true">
+            <div class="gc-slide__placeholder"></div>
+          </div>
+          <div class="gc-slide__body">
+            <h3 class="gc-slide__title">{{ slide.title }}</h3>
+            <p class="gc-slide__desc">{{ slide.description }}</p>
+            <a class="gc-slide__btn" href="{{ slide.url|default('#') }}">{{ slide.button }}</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

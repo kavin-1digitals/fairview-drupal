@@ -1,0 +1,15 @@
+{#
+/**
+ * @file
+ * Provider search page — composed from Fairview theme partials.
+ */
+#}
+<div class="provider-search" data-provider-search>
+  {% include '@fairview/components/provider-search/ps-top-bar.twig' %}
+  <div class="provider-search__shell">
+    {% include '@fairview/components/provider-search/ps-alert.twig' %}
+    {% include '@fairview/components/provider-search/ps-filters.twig' %}
+    {% include '@fairview/components/provider-search/ps-cards.twig' %}
+  </div>
+  {% include '@fairview/components/contact-banner/contact-banner.twig' %}
+</div>

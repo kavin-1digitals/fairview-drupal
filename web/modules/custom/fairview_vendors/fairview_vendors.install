@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for Fairview Vendors page.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function fairview_vendors_install(): void {
+  _fairview_vendors_ensure_page();
+}
+
+/**
+ * Create /fairview-vendors page node and alias if missing.
+ */
+function fairview_vendors_update_9001(): void {
+  _fairview_vendors_ensure_page();
+}
+
+/**
+ * Publish the Fairview Vendors page node when the alias exists.
+ */
+function fairview_vendors_update_9002(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $aliases = $alias_storage->loadByProperties(['alias' => '/fairview-vendors']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (!preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      continue;
+    }
+    $node = $node_storage->load((int) $m[1]);
+    if (!$node || $node->bundle() !== 'page') {
+      continue;
+    }
+    $node->setPublished(TRUE);
+    if ($node->hasField('moderation_state')) {
+      $node->set('moderation_state', 'published');
+    }
+    $node->save();
+    return;
+  }
+}
+
+/**
+ * Remove conflicting redirects and normalize the /fairview-vendors alias.
+ */
+function fairview_vendors_update_9003(): void {
+  _fairview_vendors_delete_redirects();
+
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+
+  $nids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'page')
+    ->condition('title', 'Fairview Vendors')
+    ->range(0, 1)
+    ->execute();
+
+  if (!$nids) {
+    _fairview_vendors_ensure_page();
+    return;
+  }
+
+  $nid = (int) reset($nids);
+  $internal = '/node/' . $nid;
+
+  $pids = $alias_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('path', $internal)
+    ->execute();
+
+  if ($pids) {
+    $alias_storage->delete($alias_storage->loadMultiple($pids));
+  }
+
+  $node = $node_storage->load($nid);
+  if (!$node) {
+    _fairview_vendors_ensure_page();
+    return;
+  }
+
+  $replacement = \Drupal\path_alias\Entity\PathAlias::create([
+    'path' => $internal,
+    'alias' => '/fairview-vendors',
+    'langcode' => $node->language()->getId(),
+  ]);
+  $replacement->save();
+}
+
+/**
+ * Publish node and dedupe /fairview-vendors aliases.
+ */
+function fairview_vendors_update_9004(): void {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+
+  $nids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'page')
+    ->condition('title', 'Fairview Vendors')
+    ->execute();
+
+  foreach ($nids as $nid) {
+    $node = $node_storage->load((int) $nid);
+    if ($node) {
+      $node->setPublished(TRUE);
+      if ($node->hasField('moderation_state')) {
+        $node->set('moderation_state', 'published');
+      }
+      $node->save();
+    }
+  }
+
+  $pids = $alias_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('alias', '/fairview-vendors')
+    ->execute();
+  if ($pids && count($pids) > 1) {
+    $aliases = $alias_storage->loadMultiple($pids);
+    $keep = TRUE;
+    foreach ($aliases as $alias) {
+      if ($keep) {
+        $keep = FALSE;
+        continue;
+      }
+      $alias->delete();
+    }
+  }
+}
+
+/**
+ * Creates a basic page node and path alias /fairview-vendors.
+ */
+function _fairview_vendors_ensure_page(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  $aliases = $alias_storage->loadByProperties(['alias' => '/fairview-vendors']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      $node = $node_storage->load((int) $m[1]);
+      if ($node && $node->bundle() === 'page') {
+        _fairview_vendors_delete_redirects();
+        return;
+      }
+    }
+  }
+
+  $node = \Drupal\node\Entity\Node::create([
+    'type' => 'page',
+    'title' => 'Fairview Vendors',
+    'status' => 1,
+  ]);
+  if ($node->hasField('moderation_state')) {
+    $node->set('moderation_state', 'published');
+  }
+  $node->save();
+
+  $new_alias = \Drupal\path_alias\Entity\PathAlias::create([
+    'path' => '/node/' . $node->id(),
+    'alias' => '/fairview-vendors',
+    'langcode' => $node->language()->getId(),
+  ]);
+  $new_alias->save();
+
+  _fairview_vendors_delete_redirects();
+}
+
+/**
+ * Deletes redirect(s) whose source path is "fairview-vendors".
+ */
+function _fairview_vendors_delete_redirects(): void {
+  $db = \Drupal::database();
+  if (!$db->schema()->tableExists('redirect')) {
+    return;
+  }
+  $db->delete('redirect')
+    ->condition('redirect_source__path', 'fairview-vendors')
+    ->execute();
+}

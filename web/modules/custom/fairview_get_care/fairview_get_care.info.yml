@@ -1,0 +1,5 @@
+name: 'Fairview Get Care'
+type: module
+description: 'Get Care landing page at /get-care (node-backed).'
+core_version_requirement: ^11
+package: 'Fairview'

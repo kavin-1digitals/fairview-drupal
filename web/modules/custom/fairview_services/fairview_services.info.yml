@@ -1,0 +1,5 @@
+name: 'Fairview Services'
+type: module
+description: 'Services directory page at /services (node-backed).'
+core_version_requirement: ^11
+package: 'Fairview'

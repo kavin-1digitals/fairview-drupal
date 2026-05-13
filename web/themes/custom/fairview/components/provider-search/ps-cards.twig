@@ -1,0 +1,61 @@
+{#
+  Result list, provider cards, pagination.
+#}
+<div class="ps-results">
+  <div class="ps-results__meta">
+    <p class="ps-results__count">{{ results_summary }}</p>
+    <nav class="ps-results__sort" aria-label="{{ 'Sort results'|t }}">
+      <a href="#" class="ps-results__sort-link is-active">{{ 'Best Match'|t }}</a>
+      <span class="ps-results__sep" aria-hidden="true">|</span>
+      <a href="#" class="ps-results__sort-link">{{ 'Availability'|t }}</a>
+      <span class="ps-results__sep" aria-hidden="true">|</span>
+      <a href="#" class="ps-results__sort-link">{{ 'A-Z'|t }}</a>
+      <span class="ps-results__sep" aria-hidden="true">|</span>
+      <a href="#" class="ps-results__sort-link">{{ 'Z-A'|t }}</a>
+    </nav>
+  </div>
+
+  <ul class="ps-cards" role="list">
+    {% for p in providers %}
+      <li class="ps-card">
+        <div class="ps-card__media">
+          <div class="ps-card__avatar ps-card__avatar--tone-{{ p.avatar_tone|default(0) }}" aria-hidden="true">
+            <span class="ps-card__avatar-text">{{ p.initials|default('?') }}</span>
+          </div>
+        </div>
+        <div class="ps-card__main">
+          <h3 class="ps-card__name">{{ p.name }}</h3>
+          <p class="ps-card__spec">{{ p.specialties }}</p>
+          {% if p.badge %}
+            <p class="ps-card__badge">{{ p.badge }}</p>
+          {% endif %}
+          <p class="ps-card__clinic">{{ p.clinic }}</p>
+          <p class="ps-card__addr">{{ p.address }}</p>
+          <p class="ps-card__contact">
+            <a href="#" class="ps-card__inline-link">{{ 'Map'|t }}</a>
+            <span class="ps-card__dot" aria-hidden="true">·</span>
+            <a href="tel:{{ p.phone|replace({' ': '', '-': '', '(': '', ')': ''}) }}" class="ps-card__inline-link">{{ p.phone }}</a>
+          </p>
+          {% if p.more_locations %}
+            <p class="ps-card__more"><a href="#" class="ps-card__link">{{ p.more_locations }}</a></p>
+          {% endif %}
+          <p class="ps-card__cta">
+            <a href="#" class="ps-card__btn">{{ 'Schedule a Visit'|t }}</a>
+          </p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <nav class="ps-pagination" aria-label="{{ 'Pagination'|t }}">
+    <a href="#" class="ps-pagination__link ps-pagination__link--nav" aria-disabled="true">{{ 'Previous'|t }}</a>
+    <ol class="ps-pagination__list">
+      <li><a href="#" class="ps-pagination__num is-current" aria-current="page">1</a></li>
+      <li><a href="#" class="ps-pagination__num">2</a></li>
+      <li><a href="#" class="ps-pagination__num">3</a></li>
+      <li><span class="ps-pagination__ellipsis">&hellip;</span></li>
+      <li><a href="#" class="ps-pagination__num">120</a></li>
+    </ol>
+    <a href="#" class="ps-pagination__link ps-pagination__link--nav">{{ 'Next'|t }}</a>
+  </nav>
+</div>

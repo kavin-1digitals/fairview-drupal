@@ -1,0 +1,40 @@
+{#
+/**
+ * @file
+ * Two-column grid of Get Care entry cards (icons from theme /images/get_care).
+ */
+#}
+<section class="gc-top" aria-labelledby="gc-top-heading">
+  <h1 id="gc-top-heading" class="visually-hidden">{{ 'Get care options'|t }}</h1>
+  <div class="gc-top__inner">
+    <ul class="gc-grid">
+      {% for card in gc_grid_cards|default([]) %}
+        <li class="gc-grid__cell">
+          <article class="gc-card gc-card--{{ card.variant|default('cta') }}">
+            <div class="gc-card__icon-wrap" aria-hidden="true">
+              {% if card.icon %}
+                <img class="gc-card__icon" src="{{ gc_icon_base|default('') }}{{ card.icon }}" width="72" height="72" alt="" loading="lazy" />
+              {% endif %}
+            </div>
+            {% if card.variant == 'arrow' %}
+              <h2 class="gc-card__title">
+                <a class="gc-card__arrow-link" href="{{ card.url|default('#') }}">
+                  <span class="gc-card__arrow-text">{{ card.title }}</span>
+                  <span class="gc-card__arrow" aria-hidden="true">→</span>
+                </a>
+              </h2>
+            {% else %}
+              <h2 class="gc-card__title gc-card__title--plain">{{ card.title }}</h2>
+            {% endif %}
+            <p class="gc-card__desc">{{ card.description }}</p>
+            {% if card.variant == 'cta' and card.button_label %}
+              <p class="gc-card__actions">
+                <a class="gc-card__btn" href="{{ card.button_url|default('#') }}">{{ card.button_label }}</a>
+              </p>
+            {% endif %}
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

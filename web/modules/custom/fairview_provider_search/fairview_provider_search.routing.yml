@@ -1,0 +1,7 @@
+fairview_provider_search.settings:
+  path: '/admin/config/fairview/provider-search'
+  defaults:
+    _form: '\Drupal\fairview_provider_search\Form\ProviderSearchSettingsForm'
+    _title: 'Provider search page'
+  requirements:
+    _permission: 'administer fairview provider search'

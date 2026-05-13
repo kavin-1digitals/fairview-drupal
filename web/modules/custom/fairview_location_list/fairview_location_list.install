@@ -1,0 +1,143 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for Fairview Location List.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function fairview_location_list_install(): void {
+  _fairview_location_list_ensure_page();
+}
+
+/**
+ * Create /locations/list page node and alias if missing.
+ */
+function fairview_location_list_update_9001(): void {
+  _fairview_location_list_ensure_page();
+}
+
+/**
+ * Ensure the locations list node is published.
+ */
+function fairview_location_list_update_9002(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $aliases = $alias_storage->loadByProperties(['alias' => '/locations/list']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (!preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      continue;
+    }
+    $node = $node_storage->load((int) $m[1]);
+    if (!$node || $node->bundle() !== 'page') {
+      continue;
+    }
+    $node->setPublished(TRUE);
+    if ($node->hasField('moderation_state')) {
+      $node->set('moderation_state', 'published');
+    }
+    $node->save();
+    return;
+  }
+}
+
+/**
+ * Creates a basic page node and path alias /locations/list.
+ */
+function _fairview_location_list_ensure_page(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  $aliases = $alias_storage->loadByProperties(['alias' => '/locations/list']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      $node = $node_storage->load((int) $m[1]);
+      if ($node && $node->bundle() === 'page') {
+        _fairview_location_list_delete_locations_list_redirects();
+        return;
+      }
+    }
+  }
+
+  $node = \Drupal\node\Entity\Node::create([
+    'type' => 'page',
+    'title' => 'Locations directory',
+    'status' => 1,
+  ]);
+  $node->save();
+
+  $new_alias = \Drupal\path_alias\Entity\PathAlias::create([
+    'path' => '/node/' . $node->id(),
+    'alias' => '/locations/list',
+    'langcode' => $node->language()->getId(),
+  ]);
+  $new_alias->save();
+
+  // A stale Redirect entry for "locations/list" would win over the alias and
+  // send users to another URL (e.g. Pathauto-generated /locations-directory).
+  _fairview_location_list_delete_locations_list_redirects();
+}
+
+/**
+ * Remove conflicting redirects so /locations/list resolves via path_alias.
+ */
+function fairview_location_list_update_9003(): void {
+  _fairview_location_list_delete_locations_list_redirects();
+
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+
+  $nids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'page')
+    ->condition('title', 'Locations directory')
+    ->range(0, 1)
+    ->execute();
+
+  if (!$nids) {
+    _fairview_location_list_ensure_page();
+    return;
+  }
+
+  $nid = (int) reset($nids);
+  $internal = '/node/' . $nid;
+
+  $pids = $alias_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('path', $internal)
+    ->execute();
+
+  if ($pids) {
+    $alias_storage->delete($alias_storage->loadMultiple($pids));
+  }
+
+  $node = $node_storage->load($nid);
+  if (!$node) {
+    _fairview_location_list_ensure_page();
+    return;
+  }
+
+  $replacement = \Drupal\path_alias\Entity\PathAlias::create([
+    'path' => $internal,
+    'alias' => '/locations/list',
+    'langcode' => $node->language()->getId(),
+  ]);
+  $replacement->save();
+}
+
+/**
+ * Deletes redirect(s) whose source path is "locations/list".
+ */
+function _fairview_location_list_delete_locations_list_redirects(): void {
+  $db = \Drupal::database();
+  if (!$db->schema()->tableExists('redirect')) {
+    return;
+  }
+  $db->delete('redirect')
+    ->condition('redirect_source__path', 'locations/list')
+    ->execute();
+}

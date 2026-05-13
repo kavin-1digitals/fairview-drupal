@@ -1,0 +1,22 @@
+fairview_provider_search.settings:
+  type: config_object
+  label: 'Provider search page settings'
+  mapping:
+    search_heading:
+      type: string
+      label: 'Search bar heading'
+    search_hint:
+      type: string
+      label: 'Search input hint / placeholder'
+    alert_message:
+      type: string
+      label: 'Combined alert banner (use a blank line between paragraphs)'
+    results_summary:
+      type: string
+      label: 'Results count summary'
+    footer_schedule_title:
+      type: string
+      label: 'Footer scheduling title'
+    footer_schedule_phone:
+      type: string
+      label: 'Footer phone display'

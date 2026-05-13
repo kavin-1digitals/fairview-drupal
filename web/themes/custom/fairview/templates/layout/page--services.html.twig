@@ -1,0 +1,11 @@
+{% extends '@fairview/templates/layout/page.html.twig' %}
+
+{% block page_body %}
+<div class="services-page" data-services>
+  {% include '@fairview/components/services/sv-hero.twig' %}
+  {% include '@fairview/components/services/sv-key-depts.twig' %}
+  {% include '@fairview/components/services/sv-education.twig' %}
+  {% include '@fairview/components/services/sv-stories.twig' %}
+  {% include '@fairview/components/contact-banner/contact-banner.twig' %}
+</div>
+{% endblock %}

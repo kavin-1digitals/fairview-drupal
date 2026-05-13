@@ -1,0 +1,49 @@
+{#
+/**
+ * @file
+ * Three cards: principles, leadership, awards.
+ */
+#}
+<section class="wwa-cards" aria-labelledby="wwa-cards-title">
+  <h2 id="wwa-cards-title" class="visually-hidden">{{ 'Learn more about Fairview'|t }}</h2>
+  <div class="wwa-cards__inner">
+    <ul class="wwa-cards__grid" role="list">
+      <li class="wwa-cards__cell">
+        <article class="wwa-card">
+          <div class="wwa-card__media">
+            <img src="{{ wwa_img_base|default('') }}WhoWeAre-Content-1.avif" width="480" height="320" alt="" loading="lazy" />
+          </div>
+          <div class="wwa-card__body">
+            <h3 class="wwa-card__title">{{ 'Our Guiding Principles'|t }}</h3>
+            <p class="wwa-card__desc">{{ 'Fairview’s mission, vision, and values are the fundamental beliefs we follow as we build a healthier future.'|t }}</p>
+            <a class="wwa-card__link" href="/about/guiding-principles">{{ 'Read More'|t }} <span class="wwa-card__arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </li>
+      <li class="wwa-cards__cell">
+        <article class="wwa-card">
+          <div class="wwa-card__media">
+            <img src="{{ wwa_img_base|default('') }}WhoWeAre-Content2.avif" width="480" height="320" alt="" loading="lazy" />
+          </div>
+          <div class="wwa-card__body">
+            <h3 class="wwa-card__title">{{ 'Our Leadership'|t }}</h3>
+            <p class="wwa-card__desc">{{ 'Fairview’s leadership team keeps us focused on our long-term goal of changing the future of medicine by making today healthier. Meet our leadership.'|t }}</p>
+            <a class="wwa-card__link" href="/about/leadership">{{ 'Our Leadership'|t }} <span class="wwa-card__arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </li>
+      <li class="wwa-cards__cell">
+        <article class="wwa-card">
+          <div class="wwa-card__media">
+            <img src="{{ wwa_img_base|default('') }}WhoWeAre-Content3.avif" width="480" height="320" alt="" loading="lazy" />
+          </div>
+          <div class="wwa-card__body">
+            <h3 class="wwa-card__title">{{ 'Awards and Recognition'|t }}</h3>
+            <p class="wwa-card__desc">{{ 'Fairview’s award-winning care is consistently recognized for excellence in clinical quality and enduring positive outcomes. See our successes.'|t }}</p>
+            <a class="wwa-card__link" href="/about/awards">{{ 'Read More'|t }} <span class="wwa-card__arrow" aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </li>
+    </ul>
+  </div>
+</section>

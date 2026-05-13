@@ -1,0 +1,27 @@
+{#
+/**
+ * @file
+ * Hero: title, cover image, lead heading and body copy.
+ */
+#}
+<section class="wwa-hero" aria-labelledby="wwa-page-title">
+  <div class="wwa-hero__text">
+    <div class="wwa-hero__text-inner">
+      <h1 id="wwa-page-title" class="wwa-hero__title">{{ 'What Makes Fairview Different?'|t }}</h1>
+      <p class="wwa-hero__lead">{{ 'A health service that heals from the heart'|t }}</p>
+      <div class="wwa-hero__body">
+        <p>{{ 'Fairview Health Services is Minnesota’s choice for healthcare. We’re an industry-leading, award-winning, nonprofit offering a full network of healthcare services. Our broad network is designed to be ready for our patients’ every need, while delivering quality care with compassion.'|t }}</p>
+        <p>{{ 'Our care portfolio includes community hospitals, academic hospitals, primary and specialty care clinics, senior facilities, facilitated living centers, rehabilitation centers, home health care services, counseling, pharmacies and benefit management services.'|t }}</p>
+        <p>{{ 'We’re built on a tradition of compassionate care. This is our home, and our patients are our neighbors. We’re here to heal, we’re here for you.'|t }}</p>
+      </div>
+    </div>
+  </div>
+  <div class="wwa-hero__media">
+    <img class="wwa-hero__img"
+         src="{{ wwa_img_base|default('') }}who-we-are-cover.avif"
+         width="960"
+         height="720"
+         alt=""
+         loading="eager" />
+  </div>
+</section>

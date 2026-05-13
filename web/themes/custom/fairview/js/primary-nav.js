@@ -71,7 +71,7 @@
 
   triggers.forEach((trigger) => {
     trigger.addEventListener('click', () => {
-      if (window.innerWidth < DESKTOP_BP) return; // handled by mobile drawer
+      if (window.innerWidth < DESKTOP_BP) return;
 
       const id     = trigger.dataset.triggers;
       const isOpen = trigger.getAttribute('aria-expanded') === 'true';

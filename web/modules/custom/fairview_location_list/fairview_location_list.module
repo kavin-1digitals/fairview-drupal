@@ -1,0 +1,211 @@
+<?php
+
+/**
+ * @file
+ * Location list page variables for /locations/list.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function fairview_location_list_preprocess_page(array &$variables): void {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($alias !== '/locations/list') {
+    return;
+  }
+
+  $variables['#attached']['library'][] = 'fairview/location-list';
+  $variables['title'] = '';
+
+  $variables['ll_popular_searches'] = [
+    'Labs',
+    'Urgent Care',
+    'Family Medicine',
+    'Diabetes',
+    'Ear Nose and Throat',
+    'OBGYN',
+    'Hospital',
+    'Mental Health',
+  ];
+
+  $variables['ll_filter_location_types'] = [
+    ['id' => 'lt-lab', 'label' => 'Lab (56)'],
+    ['id' => 'lt-imaging', 'label' => 'Imaging (36)'],
+    ['id' => 'lt-clinic', 'label' => 'Clinic (35)'],
+    ['id' => 'lt-primary', 'label' => 'Primary care (20)'],
+    ['id' => 'lt-hospital', 'label' => 'Hospital (9)'],
+    ['id' => 'lt-specialty', 'label' => 'Specialty clinic (8)'],
+    ['id' => 'lt-walkin', 'label' => 'Walk-In Clinic (1)'],
+  ];
+
+  $variables['ll_filter_departments'] = [
+    ['id' => 'dp-dh', 'label' => 'Digestive Health (7)'],
+    ['id' => 'dp-gi', 'label' => 'Gastrointestinal & Liver (5)'],
+    ['id' => 'dp-ent', 'label' => 'Ear, Nose & Throat (4)'],
+    ['id' => 'dp-eye', 'label' => 'Eye Care (3)'],
+    ['id' => 'dp-gender', 'label' => 'Gender Care (2)'],
+    ['id' => 'dp-surg', 'label' => 'General Surgery (2)'],
+    ['id' => 'dp-mh', 'label' => 'Mental Health & Addiction Care (2)'],
+    ['id' => 'dp-ortho', 'label' => 'Orthopedic Care (2)'],
+    ['id' => 'dp-wh', 'label' => "Women's Health (2)"],
+  ];
+
+  $variables['ll_filter_amenities'] = [
+    ['id' => 'am-pf', 'label' => 'Parking- Free (3)'],
+    ['id' => 'am-ph', 'label' => 'Pharmacy - InstyMeds (2)'],
+    ['id' => 'am-dv', 'label' => 'Dining - Vending (2)'],
+    ['id' => 'am-atm', 'label' => 'ATM (2)'],
+    ['id' => 'am-sec', 'label' => 'Security Escort (2)'],
+    ['id' => 'am-din', 'label' => 'Dining (2)'],
+    ['id' => 'am-mob', 'label' => 'Mobility Assistance (2)'],
+    ['id' => 'am-cof', 'label' => 'Dining - Coffee Shop (1)'],
+    ['id' => 'am-cha', 'label' => 'Chapel (1)'],
+    ['id' => 'am-pfee', 'label' => 'Parking - For a Fee (1)'],
+    ['id' => 'am-gift', 'label' => 'Gift Shop (1)'],
+    ['id' => 'am-ph2', 'label' => 'Pharmacy (1)'],
+    ['id' => 'am-valet', 'label' => 'Valet Parking (1)'],
+  ];
+
+  $variables['ll_filter_services'] = [
+    ['id' => 'sv-phys', 'label' => 'Annual Physicals (7)'],
+    ['id' => 'sv-cfl', 'label' => 'Child Family Life Services (3)'],
+    ['id' => 'sv-conc', 'label' => 'Concussion Testing (2)'],
+    ['id' => 'sv-nut', 'label' => 'Nutrition Therapy (2)'],
+    ['id' => 'sv-pedn', 'label' => 'Pediatric Nutrition Services (2)'],
+    ['id' => 'sv-prev', 'label' => 'Preventative Care (2)'],
+    ['id' => 'sv-sh', 'label' => 'Sexual Health Medical Services (2)'],
+    ['id' => 'sv-vax', 'label' => 'Vaccines (2)'],
+    ['id' => 'sv-air', 'label' => 'Airway Clearance Therapies (2)'],
+    ['id' => 'sv-gyn', 'label' => 'Annual Gynecological Exam (2)'],
+    ['id' => 'sv-anti', 'label' => 'Anticoagulation Medication Monitoring (2)'],
+    ['id' => 'sv-ath', 'label' => 'Athletic Training (2)'],
+    ['id' => 'sv-bio', 'label' => 'Biopsy (2)'],
+    ['id' => 'sv-cl', 'label' => 'Central Line Care (2)'],
+    ['id' => 'sv-can', 'label' => 'Child Abuse and Neglect Services (2)'],
+    ['id' => 'sv-dia', 'label' => 'Diabetes Education (2)'],
+    ['id' => 'sv-eye', 'label' => 'Eye Exam (2)'],
+    ['id' => 'sv-glass', 'label' => 'Glasses & Contact Lens Sales (2)'],
+    ['id' => 'sv-lac', 'label' => 'Lactation Specialists (2)'],
+    ['id' => 'sv-lym', 'label' => 'Lymphedema Therapy (2)'],
+    ['id' => 'sv-mam', 'label' => 'Mammogram (2)'],
+    ['id' => 'sv-pcou', 'label' => 'Pediatric Counseling (2)'],
+    ['id' => 'sv-preg', 'label' => 'Pregnancy and Birth (2)'],
+  ];
+
+  $variables['ll_results_summary'] = 'Showing 1 - 12 of 56 Results';
+  $variables['footer_schedule_title'] = 'Contact Us 24/7:';
+  $variables['footer_schedule_phone'] = '1-855-FAIRVIEW';
+  $variables['ll_locations'] = fairview_location_list_mock_locations();
+}
+
+/**
+ * Mock location cards for layout demo.
+ *
+ * @return list<array<string, mixed>>
+ *   Card rows.
+ */
+function fairview_location_list_mock_locations(): array {
+  $cards = [
+    [
+      'title' => 'West Bank - East Building',
+      'status' => 'Closed - Opens 7:30 AM',
+      'location_type' => 'Lab',
+      'location' => 'East Building Lab - M Health Fairview University of Minnesota Medical Center West Bank',
+      'address' => '2450 Riverside Ave, Minneapolis, MN, 55454',
+      'amenities' => [],
+      'ph' => 0,
+    ],
+    [
+      'title' => 'Fairview Community Health and Wellness Hub Lab',
+      'status' => 'Closed - Opens 6:00 AM',
+      'location_type' => 'Lab',
+      'location' => 'Fairview Community Health and Wellness Hub Lab',
+      'address' => '45 W 10th Street, St. Paul, MN, 55102',
+      'amenities' => ['Parking - For a Fee', 'Dining - Coffee Shop', 'Dining - Vending', 'Security Escort'],
+      'ph' => 1,
+    ],
+    [
+      'title' => 'M Health Fairview - Molecular Diagnostics Laboratory',
+      'status' => 'Closed - Opens 8:00 AM',
+      'location_type' => 'Lab',
+      'location' => 'M Health Fairview - Molecular Diagnostics Laboratory',
+      'address' => 'Mayo Memorial Building, Lab-D210, Office-C169420 Delaware St SE, Minneapolis, MN, 55455',
+      'amenities' => [],
+      'ph' => 0,
+    ],
+    [
+      'title' => 'M Health Fairview Bethesda Hospital',
+      'status' => 'Open Now - Open 24 Hours',
+      'location_type' => 'Hospital',
+      'location' => 'M Health Fairview Bethesda Hospital',
+      'address' => '45 W. 10th Street, St. Paul, MN, 55102',
+      'amenities' => ['Parking - For a Fee', 'Security Escort', 'Dining - Coffee Shop', 'Dining - Vending'],
+      'ph' => 2,
+    ],
+    [
+      'title' => 'M Health Fairview Bethesda Hospital Lab',
+      'status' => 'Closed - Opens 6:00 AM',
+      'location_type' => 'Lab',
+      'location' => 'M Health Fairview Bethesda Hospital Lab',
+      'address' => '45 W 10th Street , St. Paul, MN, 55102',
+      'amenities' => ['Parking - For a Fee', 'Security Escort', 'Dining - Coffee Shop', 'Dining - Vending'],
+      'ph' => 1,
+    ],
+    [
+      'title' => 'M Health Fairview Cancer Center - Maple Grove',
+      'status' => 'Closed - Opens 8:00 AM',
+      'location_type' => 'Imaging Clinic',
+      'location' => 'M Health Fairview Cancer Center - Maple Grove',
+      'address' => '14500 99th Ave. NLL-200, Maple Grove, MN, 55369',
+      'amenities' => ['ATM', 'Parking- Free', 'Gift Shop', 'Security Escort', 'Dining - Vending', 'Pharmacy'],
+      'ph' => 3,
+    ],
+    [
+      'title' => "M Health Fairview Children's Clinic - University",
+      'status' => 'Closed - Opens 7:00 AM',
+      'location_type' => 'Primary care',
+      'location' => "M Health Fairview Children's Clinic - University",
+      'address' => '2535 University Ave SE, Minneapolis, MN, 55414',
+      'amenities' => ['Parking- Free', 'Pharmacy'],
+      'ph' => 2,
+    ],
+    [
+      'title' => "M Health Fairview Children's Clinic University Lab",
+      'status' => 'Closed - Opens 7:00 AM',
+      'location_type' => 'Lab',
+      'location' => "M Health Fairview Children's Clinic University Lab",
+      'address' => '2535 University Ave SE, Minneapolis, MN, 55414',
+      'amenities' => ['Parking- Free'],
+      'ph' => 2,
+    ],
+    [
+      'title' => 'M Health Fairview Clinic - Andover',
+      'status' => 'Closed - Opens 7:00 AM',
+      'location_type' => 'Specialty clinic Primary care Lab',
+      'location' => 'M Health Fairview Clinic - Andover',
+      'address' => '13819 Hanson Blvd. NW, Andover, MN, 55304',
+      'amenities' => ['Parking- Free', 'Pharmacy'],
+      'ph' => 3,
+    ],
+    [
+      'title' => 'M Health Fairview Cancer Center - Maple Grove',
+      'status' => 'Closed - Opens 8:00 AM',
+      'location_type' => 'Imaging Clinic',
+      'location' => 'M Health Fairview Cancer Center - Maple Grove',
+      'address' => '14500 99th Ave. NLL-200, Maple Grove, MN, 55369',
+      'amenities' => ['ATM', 'Parking- Free', 'Gift Shop', 'Security Escort', 'Dining - Vending', 'Pharmacy'],
+      'ph' => 3,
+    ],
+    [
+      'title' => "M Health Fairview Children's Clinic - University",
+      'status' => 'Closed - Opens 7:00 AM',
+      'location_type' => 'Primary care',
+      'location' => "M Health Fairview Children's Clinic - University",
+      'address' => '2535 University Ave SE, Minneapolis, MN, 55414',
+      'amenities' => ['Parking- Free', 'Pharmacy'],
+      'ph' => 2,
+    ],
+  ];
+  return $cards;
+}

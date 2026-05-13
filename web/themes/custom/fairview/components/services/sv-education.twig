@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Patient education promo + image.
+ */
+#}
+<section class="sv-edu" aria-labelledby="sv-edu-title">
+  <div class="sv-edu__inner">
+    <div class="sv-edu__left">
+      <h2 id="sv-edu-title" class="sv-edu__title">{{ sv_education_title|default('') }}</h2>
+      <p class="sv-edu__subtitle">{{ sv_education_subtitle|default('') }}</p>
+      <a class="sv-edu__btn" href="{{ sv_education_button_url|default('#') }}">{{ sv_education_button_label|default('') }}</a>
+    </div>
+    <div class="sv-edu__right">
+      {% if sv_education_image %}
+        <img class="sv-edu__img" src="{{ sv_img_base|default('') }}{{ sv_education_image }}" width="640" height="420" alt="{{ 'Patient education resources'|t }}" loading="lazy" />
+      {% endif %}
+    </div>
+  </div>
+</section>

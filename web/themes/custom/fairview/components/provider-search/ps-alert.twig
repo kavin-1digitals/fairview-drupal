@@ -1,0 +1,20 @@
+{#
+  Single dismissible alert below search (two paragraphs from config).
+#}
+{% set _paras = alert_message|default('')|trim|split('\n\n') %}
+<div class="ps-alerts" data-ps-alerts>
+  <div class="ps-alert" data-ps-alert="combined" role="region" aria-label="{{ 'Important information'|t }}">
+    <div class="ps-alert__body">
+      {% for para in _paras %}
+        {% if para|trim != '' %}
+          <p class="ps-alert__p">{{ para|trim|nl2br }}</p>
+        {% endif %}
+      {% endfor %}
+    </div>
+    <button type="button" class="ps-alert__close" data-ps-alert-dismiss aria-label="{{ 'Dismiss alert'|t }}">
+      <svg class="ps-alert__close-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true" focusable="false">
+        <path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.75" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</div>

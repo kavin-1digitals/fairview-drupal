@@ -1,0 +1,13 @@
+{% extends '@fairview/templates/layout/page.html.twig' %}
+
+{% block page_body %}
+<div class="provider-search" data-provider-search>
+  {% include '@fairview/components/provider-search/ps-top-bar.twig' %}
+  <div class="provider-search__shell">
+    {% include '@fairview/components/provider-search/ps-alert.twig' %}
+    {% include '@fairview/components/provider-search/ps-filters.twig' %}
+    {% include '@fairview/components/provider-search/ps-cards.twig' %}
+  </div>
+  {% include '@fairview/components/contact-banner/contact-banner.twig' %}
+</div>
+{% endblock %}

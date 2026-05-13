@@ -1,0 +1,24 @@
+{#
+/**
+ * @file
+ * Resource cards in a four-column grid (responsive).
+ */
+#}
+<section class="res-cards" aria-label="{{ 'Resource links'|t }}">
+  <div class="res-cards__inner">
+    <ul class="res-cards__grid">
+      {% for card in res_resource_cards|default([]) %}
+        <li class="res-cards__cell">
+          <article class="res-card">
+            <h2 class="res-card__title">{{ card.title }}</h2>
+            <p class="res-card__desc">{{ card.description }}</p>
+            <a class="res-card__link" href="{{ card.url|default('#') }}">
+              <span class="res-card__link-text">{{ card.link_label }}</span>
+              <span class="res-card__link-arrow" aria-hidden="true">→</span>
+            </a>
+          </article>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

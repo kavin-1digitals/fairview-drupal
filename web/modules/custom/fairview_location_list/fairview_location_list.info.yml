@@ -1,0 +1,5 @@
+name: 'Fairview Location List'
+type: module
+description: 'Location directory page at /locations/list (node-backed).'
+core_version_requirement: ^11
+package: 'Fairview'

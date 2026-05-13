@@ -27,3 +27,55 @@ function fairview_theme_suggestions_page_alter(array &$suggestions, array $varia
     $suggestions[] = 'page__' . $key;
   }
 }
+
+/**
+ * Builds a tel: URI from a human-entered NANP-style phone string.
+ */
+function fairview_phone_digits_to_tel(string $display): string {
+  $digits = preg_replace('/\D+/', '', $display);
+  if ($digits === '') {
+    return '';
+  }
+  if (strlen($digits) === 11 && str_starts_with($digits, '1')) {
+    return '+' . $digits;
+  }
+  if (strlen($digits) === 10) {
+    return '+1' . $digits;
+  }
+  return '+' . $digits;
+}
+
+/**
+ * Implements hook_preprocess_page().
+ *
+ * Normalizes footer_schedule_* into contact_banner_* and attaches the shared
+ * contact-banner library once.
+ */
+function fairview_preprocess_page(array &$variables): void {
+  if (!empty($variables['contact_banner_phones']) && is_array($variables['contact_banner_phones'])) {
+    $variables['#attached']['library'][] = 'fairview/contact-banner';
+    return;
+  }
+
+  $phones = [];
+  if (!empty($variables['footer_schedule_phone'])) {
+    $label = (string) $variables['footer_schedule_phone'];
+    $phones[] = [
+      'tel' => fairview_phone_digits_to_tel($label),
+      'label' => $label,
+    ];
+  }
+  if (!empty($variables['footer_schedule_phone_alt'])) {
+    $label = (string) $variables['footer_schedule_phone_alt'];
+    $phones[] = [
+      'tel' => fairview_phone_digits_to_tel($label),
+      'label' => $label,
+    ];
+  }
+
+  if ($phones !== []) {
+    $variables['contact_banner_title'] = (string) ($variables['footer_schedule_title'] ?? '');
+    $variables['contact_banner_phones'] = $phones;
+    $variables['#attached']['library'][] = 'fairview/contact-banner';
+  }
+}

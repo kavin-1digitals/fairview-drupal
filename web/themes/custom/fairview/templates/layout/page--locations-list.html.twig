@@ -1,0 +1,12 @@
+{% extends '@fairview/templates/layout/page.html.twig' %}
+
+{% block page_body %}
+<div class="location-list" data-location-list>
+  {% include '@fairview/components/location-list/ll-hero.twig' %}
+  <div class="location-list__layout">
+    {% include '@fairview/components/location-list/ll-sidebar.twig' %}
+    {% include '@fairview/components/location-list/ll-results.twig' %}
+  </div>
+  {% include '@fairview/components/contact-banner/contact-banner.twig' %}
+</div>
+{% endblock %}

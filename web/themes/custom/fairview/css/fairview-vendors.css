@@ -1,0 +1,123 @@
+/**
+ * @file
+ * Fairview Vendors (/fairview-vendors).
+ */
+
+.fv-vendors-page {
+  --fv-ink: #0c1a2e;
+  --fv-muted: #475569;
+  --fv-line: #e2e8f0;
+  --fv-accent: #007a33;
+  --fv-hero-bg: #002855;
+  --fv-canvas: #f8fafc;
+  color: var(--fv-ink);
+}
+
+.fv-vendors-hero {
+  background: var(--fv-hero-bg);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.fv-vendors-hero__inner {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.35rem 1.25rem 1.45rem;
+}
+
+.fv-vendors-hero__title {
+  margin: 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #fff;
+}
+
+.fv-vendors-intro {
+  padding: 1.75rem 1.25rem 2rem;
+  background: linear-gradient(180deg, #fff 0%, var(--fv-canvas) 100%);
+  border-bottom: 1px solid var(--fv-line);
+}
+
+.fv-vendors-intro__inner {
+  max-width: 52rem;
+  margin: 0 auto;
+}
+
+.fv-vendors-intro__text {
+  margin: 0;
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  color: var(--fv-muted);
+}
+
+.fv-vendors-work {
+  padding: 2.5rem 1.25rem 3.5rem;
+  background: #fff;
+}
+
+.fv-vendors-work__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.fv-vendors-work__heading {
+  margin: 0 0 1.75rem;
+  font-size: clamp(1.35rem, 2.4vw, 1.6rem);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--fv-ink);
+  text-align: center;
+}
+
+.fv-vendors-cols {
+  display: grid;
+  gap: 2rem 2.5rem;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 800px) {
+  .fv-vendors-cols {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: start;
+  }
+}
+
+.fv-vendors-col__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.125rem;
+  font-weight: 700;
+  color: #1e3a5f;
+  letter-spacing: -0.02em;
+}
+
+.fv-vendors-col__body {
+  margin: 0 0 1.15rem;
+  font-size: 0.9375rem;
+  line-height: 1.65;
+  color: var(--fv-muted);
+}
+
+.fv-vendors-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.fv-vendors-arrow-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--fv-accent);
+  text-decoration: none;
+}
+
+.fv-vendors-arrow-link:hover,
+.fv-vendors-arrow-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.12em;
+}

@@ -1,0 +1,185 @@
+<?php
+
+/**
+ * @file
+ * Install hooks for Fairview Resources.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function fairview_resources_install(): void {
+  _fairview_resources_ensure_page();
+}
+
+/**
+ * Create /resources page node and alias if missing.
+ */
+function fairview_resources_update_9001(): void {
+  _fairview_resources_ensure_page();
+}
+
+/**
+ * Publish the Resources page node when the alias exists.
+ */
+function fairview_resources_update_9002(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $aliases = $alias_storage->loadByProperties(['alias' => '/resources']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (!preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      continue;
+    }
+    $node = $node_storage->load((int) $m[1]);
+    if (!$node || $node->bundle() !== 'page') {
+      continue;
+    }
+    $node->setPublished(TRUE);
+    if ($node->hasField('moderation_state')) {
+      $node->set('moderation_state', 'published');
+    }
+    $node->save();
+    return;
+  }
+}
+
+/**
+ * Remove conflicting redirects and normalize the /resources alias.
+ */
+function fairview_resources_update_9003(): void {
+  _fairview_resources_delete_resources_redirects();
+
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+
+  $nids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'page')
+    ->condition('title', 'Resources')
+    ->range(0, 1)
+    ->execute();
+
+  if (!$nids) {
+    _fairview_resources_ensure_page();
+    return;
+  }
+
+  $nid = (int) reset($nids);
+  $internal = '/node/' . $nid;
+
+  $pids = $alias_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('path', $internal)
+    ->execute();
+
+  if ($pids) {
+    $alias_storage->delete($alias_storage->loadMultiple($pids));
+  }
+
+  $node = $node_storage->load($nid);
+  if (!$node) {
+    _fairview_resources_ensure_page();
+    return;
+  }
+
+  $replacement = \Drupal\path_alias\Entity\PathAlias::create([
+    'path' => $internal,
+    'alias' => '/resources',
+    'langcode' => $node->language()->getId(),
+  ]);
+  $replacement->save();
+}
+
+/**
+ * Publish Resources page node; remove duplicate /resources aliases.
+ */
+function fairview_resources_update_9004(): void {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+
+  $nids = $node_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('type', 'page')
+    ->condition('title', 'Resources')
+    ->execute();
+
+  foreach ($nids as $nid) {
+    $node = $node_storage->load((int) $nid);
+    if ($node) {
+      $node->setPublished(TRUE);
+      if ($node->hasField('moderation_state')) {
+        $node->set('moderation_state', 'published');
+      }
+      $node->save();
+    }
+  }
+
+  $pids = $alias_storage->getQuery()
+    ->accessCheck(FALSE)
+    ->condition('alias', '/resources')
+    ->execute();
+  if ($pids && count($pids) > 1) {
+    $aliases = $alias_storage->loadMultiple($pids);
+    $keep = TRUE;
+    foreach ($aliases as $alias) {
+      if ($keep) {
+        $keep = FALSE;
+        continue;
+      }
+      $alias->delete();
+    }
+  }
+}
+
+/**
+ * Creates a basic page node and path alias /resources.
+ */
+function _fairview_resources_ensure_page(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  $aliases = $alias_storage->loadByProperties(['alias' => '/resources']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      $node = $node_storage->load((int) $m[1]);
+      if ($node && $node->bundle() === 'page') {
+        _fairview_resources_delete_resources_redirects();
+        return;
+      }
+    }
+  }
+
+  $node = \Drupal\node\Entity\Node::create([
+    'type' => 'page',
+    'title' => 'Resources',
+    'status' => 1,
+  ]);
+  if ($node->hasField('moderation_state')) {
+    $node->set('moderation_state', 'published');
+  }
+  $node->save();
+
+  $new_alias = \Drupal\path_alias\Entity\PathAlias::create([
+    'path' => '/node/' . $node->id(),
+    'alias' => '/resources',
+    'langcode' => $node->language()->getId(),
+  ]);
+  $new_alias->save();
+
+  _fairview_resources_delete_resources_redirects();
+}
+
+/**
+ * Deletes redirect(s) whose source path is "resources".
+ */
+function _fairview_resources_delete_resources_redirects(): void {
+  $db = \Drupal::database();
+  if (!$db->schema()->tableExists('redirect')) {
+    return;
+  }
+  $db->delete('redirect')
+    ->condition('redirect_source__path', 'resources')
+    ->execute();
+}

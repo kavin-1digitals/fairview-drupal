@@ -1,0 +1,20 @@
+{#
+/**
+ * @file
+ * Value stat cards — horizontal slider with autoplay (see about-page.js).
+ */
+#}
+<section class="wwa-values" aria-labelledby="wwa-values-title" data-wwa-values>
+  <div class="wwa-values__head">
+    <h2 id="wwa-values-title" class="visually-hidden">{{ 'Fairview at a glance'|t }}</h2>
+  </div>
+  <div class="wwa-values__viewport" data-wwa-values-viewport tabindex="0">
+    <div class="wwa-values__track" data-wwa-values-track role="list">
+      {% for line in wwa_values|default([]) %}
+        <div class="wwa-value-card" role="listitem">
+          <span class="wwa-value-card__text">{{ line }}</span>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>

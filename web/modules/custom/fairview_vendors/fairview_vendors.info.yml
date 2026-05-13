@@ -1,0 +1,5 @@
+name: 'Fairview Vendors'
+type: module
+description: 'Fairview Vendors landing page at /fairview-vendors (node-backed).'
+core_version_requirement: ^11
+package: 'Fairview'

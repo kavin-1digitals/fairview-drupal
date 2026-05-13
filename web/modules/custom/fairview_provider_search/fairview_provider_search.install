@@ -1,0 +1,126 @@
+<?php
+
+/**
+ * @file
+ * Install and update hooks for Fairview Provider Search.
+ */
+
+/**
+ * Merge legacy alert fields into a single banner message.
+ */
+function fairview_provider_search_update_9001(): void {
+  $config = \Drupal::configFactory()->getEditable('fairview_provider_search.settings');
+  $current = $config->get('alert_message');
+  if (is_string($current) && trim($current) !== '') {
+    return;
+  }
+  $emergency = $config->get('alert_emergency') ?? '';
+  $financial = $config->get('alert_financial') ?? '';
+  $merged = trim($emergency . (strlen((string) $emergency) && strlen((string) $financial) ? "\n\n" : '') . $financial);
+  if ($merged === '') {
+    $merged = "If you are having a medical emergency, please go to the nearest emergency room or call 9-1-1.\n\nThe providers identified in the below list are covered by the Financial Assistance Policy only when practicing at applicable locations identified in the Financial Assistance Policy.";
+  }
+  $config->set('alert_message', $merged);
+  $config->clear('alert_emergency');
+  $config->clear('alert_financial');
+  $config->save();
+}
+
+/**
+ * Create a node-backed /search page if missing.
+ */
+function fairview_provider_search_update_9002(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  $aliases = $alias_storage->loadByProperties(['alias' => '/search']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      $node = $node_storage->load((int) $m[1]);
+      if ($node && $node->bundle() === 'page') {
+        return;
+      }
+    }
+  }
+
+  $node = \Drupal\node\Entity\Node::create([
+    'type' => 'page',
+    'title' => 'Find a Provider',
+    'status' => 1,
+  ]);
+  $node->save();
+
+  $new_alias = \Drupal\path_alias\Entity\PathAlias::create([
+    'path' => '/node/' . $node->id(),
+    'alias' => '/search',
+    'langcode' => $node->language()->getId(),
+  ]);
+  $new_alias->save();
+}
+
+/**
+ * Ensure the /search node is published for anonymous visitors.
+ */
+function fairview_provider_search_update_9003(): void {
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+
+  $aliases = $alias_storage->loadByProperties(['alias' => '/search']);
+  foreach ($aliases as $alias) {
+    $path = $alias->getPath();
+    if (!preg_match('/^\/node\/(\d+)$/', $path, $m)) {
+      continue;
+    }
+    $node = $node_storage->load((int) $m[1]);
+    if (!$node || $node->bundle() !== 'page') {
+      continue;
+    }
+    $node->setPublished(TRUE);
+    if ($node->hasField('moderation_state')) {
+      $node->set('moderation_state', 'published');
+    }
+    $node->save();
+    return;
+  }
+}
+
+/**
+ * Force /search as the canonical alias for the provider page.
+ */
+function fairview_provider_search_update_9004(): void {
+  $node_storage = \Drupal::entityTypeManager()->getStorage('node');
+  $alias_storage = \Drupal::entityTypeManager()->getStorage('path_alias');
+
+  $nodes = $node_storage->loadByProperties([
+    'type' => 'page',
+    'title' => 'Find a Provider',
+  ]);
+  if (!$nodes) {
+    return;
+  }
+  $node = reset($nodes);
+  if (!$node) {
+    return;
+  }
+
+  $path = '/node/' . $node->id();
+  $aliases = $alias_storage->loadByProperties(['path' => $path]);
+  $has_search_alias = FALSE;
+  foreach ($aliases as $alias) {
+    if ($alias->getAlias() === '/search') {
+      $has_search_alias = TRUE;
+      continue;
+    }
+    $alias->delete();
+  }
+
+  if (!$has_search_alias) {
+    $new_alias = \Drupal\path_alias\Entity\PathAlias::create([
+      'path' => $path,
+      'alias' => '/search',
+      'langcode' => $node->language()->getId(),
+    ]);
+    $new_alias->save();
+  }
+}

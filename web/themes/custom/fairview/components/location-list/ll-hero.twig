@@ -1,0 +1,41 @@
+{#
+  Dual-field location search hero.
+#}
+<section class="ll-hero" aria-labelledby="ll-hero-title">
+  <h1 id="ll-hero-title" class="visually-hidden">{{ 'Find a location'|t }}</h1>
+  <form class="ll-hero__form" role="search" action="/locations/list" method="get" data-ll-hero-form>
+    <div class="ll-hero__fields">
+      <div class="ll-hero__field" data-ll-field="primary">
+        <label class="ll-hero__label" for="ll-input-primary">{{ 'Enter name, service, or specialty'|t }}</label>
+        <div class="ll-hero__control">
+          <input type="search" id="ll-input-primary" name="q" class="ll-hero__input" placeholder="{{ 'Begin typing...'|t }}" autocomplete="off" data-ll-input-primary />
+          <div class="ll-dropdown" id="ll-dd-primary" data-ll-dropdown="primary" hidden>
+            <p class="ll-dropdown__heading">{{ 'Popular Searches'|t }}</p>
+            <ul class="ll-dropdown__list" role="listbox">
+              {% for item in ll_popular_searches|default([]) %}
+                <li role="none"><button type="button" class="ll-dropdown__opt" data-ll-suggest="{{ item }}">{{ item }}</button></li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="ll-hero__field" data-ll-field="near">
+        <label class="ll-hero__label" for="ll-input-near">{{ 'Search Near'|t }}</label>
+        <div class="ll-hero__control">
+          <input type="search" id="ll-input-near" name="near" class="ll-hero__input" placeholder="{{ 'Enter address, city, or ZIP code'|t }}" autocomplete="off" data-ll-input-near />
+          <div class="ll-dropdown" id="ll-dd-near" data-ll-dropdown="near" hidden>
+            <button type="button" class="ll-dropdown__loc" data-ll-use-location>
+              <span class="ll-dropdown__loc-icon" aria-hidden="true">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-4.35 7-10a7 7 0 1 0-14 0c0 5.65 7 10 7 10z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="11" r="2.5" stroke="currentColor" stroke-width="1.5"/></svg>
+              </span>
+              <span>{{ 'Use my current location'|t }}</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button type="submit" class="ll-hero__submit" aria-label="{{ 'Search'|t }}">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </form>
+</section>

@@ -1,0 +1,207 @@
+<?php
+
+/**
+ * @file
+ * Provider search page data and configuration.
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function fairview_provider_search_theme(): array {
+  return [
+    'provider_search_page' => [
+      'variables' => [
+        'search_heading' => '',
+        'search_hint' => '',
+        'alert_message' => '',
+        'results_summary' => '',
+        'footer_schedule_title' => '',
+        'footer_schedule_phone' => '',
+        'contact_banner_title' => '',
+        'contact_banner_phones' => [],
+        'providers' => [],
+      ],
+    ],
+  ];
+}
+
+/**
+ * Generate initials from a provider name.
+ */
+function fairview_provider_search_initials(string $name): string {
+  $before = trim(explode(',', $name, 2)[0]);
+  $parts = $before === '' ? [] : preg_split('/\s+/', $before);
+  if ($parts === FALSE || $parts === []) {
+    return '?';
+  }
+  if (count($parts) === 1) {
+    $token = $parts[0];
+    return strtoupper(substr($token, 0, min(2, strlen($token))));
+  }
+  $first = substr($parts[0], 0, 1);
+  $last = substr($parts[count($parts) - 1], 0, 1);
+  return strtoupper($first . $last);
+}
+
+/**
+ * Return mock provider cards (for design phase).
+ *
+ * @return array<int, array<string, scalar>>
+ *   Provider rows.
+ */
+function fairview_provider_search_mock_providers(): array {
+  $rows = [
+    [
+      'name' => 'Ben Williams, MD',
+      'specialties' => 'Cardiac Imaging, Cardiology',
+      'badge' => 'Accepting New Patients',
+      'clinic' => 'M Health Fairview Heart Clinic Burnsville',
+      'address' => '14101 Fairview Drive, Suite 140, Burnsville, MN 55337',
+      'phone' => '612-365-5000',
+      'more_locations' => '+3 locations',
+    ],
+    [
+      'name' => 'Abraham Jacob, MD',
+      'specialties' => 'Pediatrics, Internal Medicine',
+      'badge' => '',
+      'clinic' => "M Health Fairview Children's",
+      'address' => '2535 University Avenue Southeast, Minneapolis, MN 55414',
+      'phone' => '612-672-2350',
+      'more_locations' => '+1 location',
+    ],
+    [
+      'name' => 'Sarah Chen, MD',
+      'specialties' => 'Obstetrics & Gynecology',
+      'badge' => 'Accepting New Patients',
+      'clinic' => 'M Health Fairview Clinic & Surgery Center',
+      'address' => '640 Jackson Street, Minneapolis, MN 55455',
+      'phone' => '612-273-8383',
+      'more_locations' => '',
+    ],
+    [
+      'name' => 'Michael Torres, DO',
+      'specialties' => 'Family Medicine',
+      'badge' => '',
+      'clinic' => 'M Health Fairview Primary Care - Snelling',
+      'address' => '3024 Snelling Avenue South, Saint Paul, MN 55408',
+      'phone' => '651-641-8000',
+      'more_locations' => '+2 locations',
+    ],
+    [
+      'name' => 'Emily Nakamura, MD',
+      'specialties' => 'Dermatology',
+      'badge' => 'Accepting New Patients',
+      'clinic' => 'M Health Fairview Dermatology',
+      'address' => '420 Delaware Street SE, Minneapolis, MN 55455',
+      'phone' => '612-273-6258',
+      'more_locations' => '',
+    ],
+    [
+      'name' => 'James Okafor, MD',
+      'specialties' => 'Orthopedic Surgery, Sports Medicine',
+      'badge' => '',
+      'clinic' => 'M Health Fairview Orthopedic Clinic',
+      'address' => '2000 Plymouth Road, Minnetonka, MN 55305',
+      'phone' => '952-993-4000',
+      'more_locations' => '+4 locations',
+    ],
+    [
+      'name' => 'Priya Patel, MD',
+      'specialties' => 'Neurology',
+      'badge' => 'Accepting New Patients',
+      'clinic' => 'M Health Fairview Neurology Clinic',
+      'address' => '516 Delaware Street SE, Minneapolis, MN 55455',
+      'phone' => '612-626-6000',
+      'more_locations' => '+1 location',
+    ],
+    [
+      'name' => 'David Nguyen, MD',
+      'specialties' => 'Gastroenterology',
+      'badge' => '',
+      'clinic' => 'M Health Fairview Digestive Care',
+      'address' => '3366 Oakdale Avenue North, Robbinsdale, MN 55422',
+      'phone' => '763-520-5200',
+      'more_locations' => '',
+    ],
+    [
+      'name' => 'Rachel Morrison, MD',
+      'specialties' => 'Psychiatry, Mental Health',
+      'badge' => 'Accepting New Patients',
+      'clinic' => 'M Health Fairview Mental Health Clinic',
+      'address' => '606 24th Avenue South, Minneapolis, MN 55454',
+      'phone' => '612-273-8383',
+      'more_locations' => '+2 locations',
+    ],
+  ];
+  foreach ($rows as &$row) {
+    $row['initials'] = fairview_provider_search_initials((string) $row['name']);
+    $row['avatar_tone'] = (string) (crc32((string) $row['name']) % 6);
+  }
+  unset($row);
+  return $rows;
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function fairview_provider_search_preprocess_page(array &$variables): void {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($alias !== '/search') {
+    return;
+  }
+
+  $config = \Drupal::config('fairview_provider_search.settings');
+  $message = $config->get('alert_message');
+  if (!is_string($message) || trim($message) === '') {
+    $emergency = $config->get('alert_emergency') ?? '';
+    $financial = $config->get('alert_financial') ?? '';
+    $message = trim($emergency . (strlen((string) $emergency) && strlen((string) $financial) ? "\n\n" : '') . $financial);
+  }
+
+  $variables['search_heading'] = $config->get('search_heading') ?: 'What can we help you with?';
+  $variables['search_hint'] = $config->get('search_hint') ?: 'Enter a Condition, Specility or Provider Name';
+  $variables['alert_message'] = str_replace(["\r\n", "\r"], "\n", (string) $message);
+  $variables['results_summary'] = $config->get('results_summary') ?: '3565 providers found';
+  $variables['footer_schedule_title'] = $config->get('footer_schedule_title') ?: 'To Schedule an Appointment 24/7';
+  $variables['footer_schedule_phone'] = $config->get('footer_schedule_phone') ?: '1-855-FAIRVIEW';
+  $variables['providers'] = fairview_provider_search_mock_providers();
+  $variables['#attached']['library'][] = 'fairview/provider-search';
+  $variables['title'] = '';
+}
+
+/**
+ * Implements hook_preprocess_HOOK() for provider_search_page.
+ */
+function fairview_provider_search_preprocess_provider_search_page(array &$variables): void {
+  $config = \Drupal::config('fairview_provider_search.settings');
+  $variables['footer_schedule_title'] = $config->get('footer_schedule_title') ?: 'To Schedule an Appointment 24/7';
+  $variables['footer_schedule_phone'] = $config->get('footer_schedule_phone') ?: '1-855-FAIRVIEW';
+  $label = (string) $variables['footer_schedule_phone'];
+  $variables['contact_banner_title'] = (string) $variables['footer_schedule_title'];
+  $variables['contact_banner_phones'] = [
+    [
+      'tel' => _fairview_provider_search_tel_from_display($label),
+      'label' => $label,
+    ],
+  ];
+  $variables['#attached']['library'][] = 'fairview/contact-banner';
+}
+
+/**
+ * Builds a tel: URI from a display phone string (NANP-style).
+ */
+function _fairview_provider_search_tel_from_display(string $display): string {
+  $digits = preg_replace('/\D+/', '', $display);
+  if ($digits === '') {
+    return '';
+  }
+  if (strlen($digits) === 11 && str_starts_with($digits, '1')) {
+    return '+' . $digits;
+  }
+  if (strlen($digits) === 10) {
+    return '+1' . $digits;
+  }
+  return '+' . $digits;
+}

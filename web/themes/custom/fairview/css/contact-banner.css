@@ -1,0 +1,100 @@
+/**
+ * @file
+ * Shared contact strip — dark background, light text, handset icon.
+ */
+
+.contact-banner {
+  width: 100%;
+  margin: 0;
+  padding: 0.95rem 1.25rem 1.05rem;
+  background: linear-gradient(90deg, #0b1220 0%, #111827 48%, #0f172a 100%);
+  color: #e2e8f0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.contact-banner__inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem 1rem;
+}
+
+.contact-banner__icon-wrap {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f8fafc;
+}
+
+.contact-banner__icon {
+  display: block;
+  opacity: 0.95;
+}
+
+.contact-banner__body {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem 0.85rem;
+  font-size: clamp(0.9375rem, 2vw, 1.0625rem);
+  line-height: 1.35;
+  text-align: center;
+}
+
+.contact-banner__title {
+  font-weight: 600;
+  color: #f1f5f9;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+.contact-banner__phones {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem 0.65rem;
+}
+
+.contact-banner__sep {
+  color: rgba(226, 232, 240, 0.45);
+  font-weight: 300;
+  user-select: none;
+}
+
+.contact-banner__phone {
+  font-weight: 600;
+  color: #fff;
+  text-decoration: none;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.contact-banner__phone:hover,
+.contact-banner__phone:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+@media (max-width: 560px) {
+  .contact-banner__inner {
+    flex-wrap: wrap;
+    row-gap: 0.5rem;
+  }
+
+  .contact-banner__body {
+    flex-direction: column;
+    row-gap: 0.35rem;
+  }
+}

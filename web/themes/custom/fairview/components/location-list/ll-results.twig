@@ -1,0 +1,58 @@
+{#
+  Results: summary, active filters, cards, pagination.
+#}
+<div class="ll-main">
+  <header class="ll-main__head">
+    <p class="ll-main__summary">{{ ll_results_summary|default('') }}</p>
+  </header>
+
+  <div class="ll-active" data-ll-active hidden>
+    <div class="ll-active__row">
+      <span class="ll-active__label">{{ 'Active Filters:'|t }}</span>
+      <div class="ll-active__chips" data-ll-chips></div>
+      <button type="button" class="ll-active__clear" data-ll-clear-all>{{ 'Clear all'|t }}</button>
+    </div>
+  </div>
+
+  <ul class="ll-cards" role="list">
+    {% for loc in ll_locations|default([]) %}
+      <li class="ll-card">
+        <div class="ll-card__media ll-card__media--ph{{ loc.ph|default(0) }}">
+          <span class="visually-hidden">{{ 'Location photo placeholder'|t }}</span>
+        </div>
+        <div class="ll-card__status {% if 'Open Now' in loc.status %}ll-card__status--open{% endif %}">{{ loc.status }}</div>
+        <div class="ll-card__body">
+          <p class="ll-card__type">{{ loc.location_type }}</p>
+          <h3 class="ll-card__title">{{ loc.title }}</h3>
+          <p class="ll-card__subtitle">{{ loc.location }}</p>
+          <p class="ll-card__contact">
+            <a href="#" class="ll-card__link">{{ 'View Contact Details'|t }}</a>
+          </p>
+          <p class="ll-card__addr">{{ loc.address }}</p>
+          {% if loc.amenities is iterable and loc.amenities|length > 0 %}
+            <ul class="ll-card__amenities" aria-label="{{ 'Amenities'|t }}">
+              {% for a in loc.amenities %}
+                <li class="ll-card__amenity">{{ a }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+          <p class="ll-card__cta">
+            <a href="#" class="ll-card__btn">{{ 'View Location Details'|t }}</a>
+          </p>
+        </div>
+      </li>
+    {% endfor %}
+  </ul>
+
+  <nav class="ll-pagination" aria-label="{{ 'Pagination'|t }}">
+    <a href="#" class="ll-pagination__nav" aria-disabled="true">{{ 'Previous'|t }}</a>
+    <ol class="ll-pagination__list">
+      <li><a href="#" class="ll-pagination__num is-current" aria-current="page">1</a></li>
+      <li><a href="#" class="ll-pagination__num">2</a></li>
+      <li><a href="#" class="ll-pagination__num">3</a></li>
+      <li><span class="ll-pagination__ellipsis">&hellip;</span></li>
+      <li><a href="#" class="ll-pagination__num">5</a></li>
+    </ol>
+    <a href="#" class="ll-pagination__nav">{{ 'Next'|t }}</a>
+  </nav>
+</div>

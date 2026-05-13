@@ -1,0 +1,5 @@
+name: 'Fairview About'
+type: module
+description: 'Who we are / about landing page at /about (node-backed).'
+core_version_requirement: ^11
+package: 'Fairview'

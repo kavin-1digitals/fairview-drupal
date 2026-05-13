@@ -1,0 +1,47 @@
+{#
+/**
+ * @file
+ * Services hero: search + browse-by cards.
+ */
+#}
+<section class="sv-hero" aria-labelledby="sv-hero-title">
+  <div class="sv-hero__inner">
+    <div class="sv-hero__left">
+      <h1 id="sv-hero-title" class="sv-hero__title">{{ sv_hero_title|default('') }}</h1>
+      <p class="sv-hero__subtitle">{{ sv_hero_subtitle|default('') }}</p>
+      <form class="sv-hero__search" role="search" action="/services" method="get">
+        <label class="sv-hero__search-label" for="sv-service-search">{{ sv_search_info|default('') }}</label>
+        <div class="sv-hero__search-row">
+          <input id="sv-service-search" class="sv-hero__input" type="search" name="q" placeholder="{{ sv_search_hint|default('') }}" autocomplete="off" />
+          <button type="submit" class="sv-hero__submit" aria-label="{{ 'Search'|t }}">
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </form>
+      <p class="sv-hero__all-wrap">
+        <a class="sv-hero__all-link" href="{{ sv_view_all_services_url|default('#') }}">{{ 'View All Services'|t }}</a>
+      </p>
+      <p class="sv-hero__helper">
+        {{ "Don't know which care type to choose?"|t }}
+        <a class="sv-hero__helper-link" href="{{ sv_symptom_checker_url|default('#') }}">{{ 'Try Symptom Checker'|t }}</a>
+      </p>
+    </div>
+    <div class="sv-hero__right">
+      <h2 class="sv-browse__title">{{ 'Browse By'|t }}</h2>
+      <ul class="sv-browse__grid">
+        {% for card in sv_browse_cards|default([]) %}
+          <li class="sv-browse__cell">
+            <a class="sv-browse-card" href="{{ card.url|default('#') }}">
+              <span class="sv-browse-card__icon-wrap" aria-hidden="true">
+                {% if card.icon %}
+                  <img class="sv-browse-card__icon" src="{{ sv_img_base|default('') }}{{ card.icon }}" width="48" height="48" alt="" loading="lazy" />
+                {% endif %}
+              </span>
+              <span class="sv-browse-card__label">{{ card.label }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+</section>

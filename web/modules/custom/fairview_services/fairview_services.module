@@ -1,0 +1,96 @@
+<?php
+
+/**
+ * @file
+ * Services directory page variables for /services.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function fairview_services_preprocess_page(array &$variables): void {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($alias !== '/services') {
+    return;
+  }
+
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+  $variables['sv_img_base'] = base_path() . $theme_path . '/images/services/';
+
+  $variables['sv_hero_title'] = 'Find a Service';
+  $variables['sv_hero_subtitle'] = 'Explore our library to learn about conditions, treatments, tests, and more.';
+  $variables['sv_search_info'] = 'Enter Condition, Treatment, Specialty or Service';
+  $variables['sv_search_hint'] = 'Begin typing...';
+  $variables['sv_view_all_services_url'] = '/services/all';
+  $variables['sv_symptom_checker_url'] = '/care/symptoms';
+
+  $variables['sv_browse_cards'] = [
+    ['icon' => 'browse_by1.svg', 'label' => 'Departments & Specialties', 'url' => '/care-treatment/specialties'],
+    ['icon' => 'browse_by2.svg', 'label' => 'Conditions & Diseases', 'url' => '/care-treatment/conditions'],
+    ['icon' => 'browse_by3.svg', 'label' => 'Treatments & Procedures', 'url' => '/care-treatment/treatments'],
+    ['icon' => 'browse_by4.svg', 'label' => 'Tests & Services', 'url' => '/care-treatment/tests'],
+  ];
+
+  $variables['sv_key_depts_title'] = 'Key Departments & Specialties';
+  $variables['sv_key_dept_cards'] = [
+    ['icon' => 'key_dept1.svg', 'label' => 'Birthplace', 'url' => '/care-treatment/birthplace'],
+    ['icon' => 'key_dept2.svg', 'label' => 'Cancer Care', 'url' => '/care-treatment/cancer-care'],
+    ['icon' => 'key_dept3.svg', 'label' => 'Heart Care', 'url' => '/care-treatment/heart-care'],
+    ['icon' => 'key_dept4.svg', 'label' => 'Neuroscience Care', 'url' => '/care-treatment/neuroscience'],
+    ['icon' => 'key_dept5.svg', 'label' => 'Organ Transplant Care', 'url' => '/care-treatment/transplant'],
+    ['icon' => 'key_dept6.svg', 'label' => 'Orthopedic Care', 'url' => '/care-treatment/orthopedics'],
+    ['icon' => 'key_dept7.svg', 'label' => 'Orthotics and Prosthetics', 'url' => '/care-treatment/orthotics'],
+    ['icon' => 'key_dept8.svg', 'label' => 'Pediatrics', 'url' => '/care-treatment/pediatrics'],
+    ['icon' => 'key_dept9.svg', 'label' => 'Primary Care', 'url' => '/care-treatment/primary-care'],
+    ['icon' => 'key_dept10.svg', 'label' => 'Spine Care', 'url' => '/care-treatment/spine'],
+    ['icon' => 'key_dept11.svg', 'label' => 'Vascular', 'url' => '/care-treatment/vascular'],
+    ['icon' => 'key_dept12.svg', 'label' => "Women's Health", 'url' => '/care-treatment/womens-health'],
+  ];
+
+  $variables['sv_education_title'] = 'Explore Our Patient Education Portal';
+  $variables['sv_education_subtitle'] = 'Embark on your health journey with comprehensive patient education, unlocking awareness, expanding knowledge, and enhancing decision-making skills.';
+  $variables['sv_education_button_label'] = 'Visit Health Library';
+  $variables['sv_education_button_url'] = '/resources/health-library';
+  $variables['sv_education_image'] = 'container3_img.avif';
+
+  $variables['sv_stories_title'] = 'Patient Stories';
+  $variables['sv_story_cards'] = [
+    [
+      'title' => 'Our Patients',
+      'description' => 'When progress stalls, trust can move care forward',
+      'url' => '/patient-stories/1',
+    ],
+    [
+      'title' => 'peds our patients',
+      'description' => 'First-in-the-Upper-Midwest partial heart transplant saves Big Lake infant',
+      'url' => '/patient-stories/2',
+    ],
+    [
+      'title' => 'Heart and Vascular Care Stories',
+      'description' => 'New aortic dissection repair therapy gives Shannon additional protection',
+      'url' => '/patient-stories/3',
+    ],
+    [
+      'title' => 'Our Patients',
+      'description' => 'Resilient, relentless, and rare: A family’s journey through medical uncertainty',
+      'url' => '/patient-stories/4',
+    ],
+    [
+      'title' => 'Our Patients',
+      'description' => 'A family’s gratitude for end-of-life care',
+      'url' => '/patient-stories/5',
+    ],
+    [
+      'title' => 'Our Patients',
+      'description' => 'Where care becomes community: Ozzy’s village at M Health Fairview Masonic Children’s Hospital',
+      'url' => '/patient-stories/6',
+    ],
+  ];
+
+  $variables['footer_schedule_title'] = 'Contact Us 24/7:';
+  $variables['footer_schedule_phone'] = '1-855-FAIRVIEW';
+
+  $variables['#attached']['library'][] = 'fairview/services';
+  $variables['title'] = '';
+}

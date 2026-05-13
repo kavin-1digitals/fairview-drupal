@@ -1,0 +1,58 @@
+{#
+  Sidebar filters for location list.
+#}
+<aside class="ll-sidebar" aria-labelledby="ll-filters-title">
+  <h2 id="ll-filters-title" class="ll-sidebar__title">{{ 'Filters'|t }}</h2>
+
+  <div class="ll-filter-block">
+    <label class="ll-switch">
+      <input type="checkbox" name="open_only" class="ll-switch__input" data-ll-filter="open" data-ll-filter-label="{{ 'Show Open Locations Only'|t }}" />
+      <span class="ll-switch__track" aria-hidden="true"></span>
+      <span class="ll-switch__text">{{ 'Show Open Locations Only'|t }}</span>
+    </label>
+  </div>
+
+  <fieldset class="ll-filter-block">
+    <legend class="ll-filter-legend">{{ 'Location Types'|t }}</legend>
+    {% for opt in ll_filter_location_types|default([]) %}
+      <label class="ll-check">
+        <input type="checkbox" name="loc_type[]" value="{{ opt.id }}" data-ll-filter="{{ opt.id }}" data-ll-filter-label="{{ opt.label }}" />
+        <span>{{ opt.label }}</span>
+      </label>
+    {% endfor %}
+  </fieldset>
+
+  <fieldset class="ll-filter-block">
+    <legend class="ll-filter-legend">{{ 'Departments (15)'|t }}</legend>
+    {% for opt in ll_filter_departments|default([]) %}
+      <label class="ll-check">
+        <input type="checkbox" name="dept[]" value="{{ opt.id }}" data-ll-filter="{{ opt.id }}" data-ll-filter-label="{{ opt.label }}" />
+        <span>{{ opt.label }}</span>
+      </label>
+    {% endfor %}
+  </fieldset>
+
+  <fieldset class="ll-filter-block">
+    <legend class="ll-filter-legend">{{ 'Amenities (13)'|t }}</legend>
+    <div class="ll-filter-scroll">
+      {% for opt in ll_filter_amenities|default([]) %}
+        <label class="ll-check">
+          <input type="checkbox" name="amen[]" value="{{ opt.id }}" data-ll-filter="{{ opt.id }}" data-ll-filter-label="{{ opt.label }}" />
+          <span>{{ opt.label }}</span>
+        </label>
+      {% endfor %}
+    </div>
+  </fieldset>
+
+  <fieldset class="ll-filter-block">
+    <legend class="ll-filter-legend">{{ 'Location Services (22)'|t }}</legend>
+    <div class="ll-filter-scroll ll-filter-scroll--tall">
+      {% for opt in ll_filter_services|default([]) %}
+        <label class="ll-check">
+          <input type="checkbox" name="svc[]" value="{{ opt.id }}" data-ll-filter="{{ opt.id }}" data-ll-filter-label="{{ opt.label }}" />
+          <span>{{ opt.label }}</span>
+        </label>
+      {% endfor %}
+    </div>
+  </fieldset>
+</aside>

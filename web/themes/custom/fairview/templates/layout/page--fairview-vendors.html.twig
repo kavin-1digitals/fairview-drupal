@@ -1,0 +1,47 @@
+{% extends '@fairview/templates/layout/page.html.twig' %}
+
+{% block page_body %}
+<div class="fv-vendors-page">
+  <header class="fv-vendors-hero">
+    <div class="fv-vendors-hero__inner">
+      <h1 class="fv-vendors-hero__title">{{ 'Fairview Vendors'|t }}</h1>
+    </div>
+  </header>
+
+  <section class="fv-vendors-intro" aria-label="{{ 'Introduction'|t }}">
+    <div class="fv-vendors-intro__inner">
+      <p class="fv-vendors-intro__text">
+        {{ 'By leveraging Fairview’s size and expertise, our affiliates take advantage of Fairview’s long history of quality services in the upper Midwest.'|t }}
+      </p>
+    </div>
+  </section>
+
+  <section class="fv-vendors-work" aria-labelledby="fv-vendors-work-title">
+    <div class="fv-vendors-work__inner">
+      <h2 id="fv-vendors-work-title" class="fv-vendors-work__heading">{{ 'Working with Fairview'|t }}</h2>
+      <div class="fv-vendors-cols">
+        <div class="fv-vendors-col">
+          <h3 class="fv-vendors-col__title">{{ 'Fairview Purchasing Network'|t }}</h3>
+          <p class="fv-vendors-col__body">
+            {{ 'Fairview Purchasing Network (FPN), a division of Fairview Health Services, is a Premier-sponsored group purchasing organization (GPO) affiliate program. We offer supply savings and consulting services that enhance our members’ purchasing power. Our affiliates include over 20 acute care hospitals, seven alternate care sites and 13 retail pharmacies in the upper Midwest.'|t }}
+          </p>
+          <ul class="fv-vendors-links" role="list">
+            <li><a class="fv-vendors-arrow-link" href="/fairview-vendors/fpn/overview">{{ 'Overview'|t }} <span aria-hidden="true">→</span></a></li>
+            <li><a class="fv-vendors-arrow-link" href="/fairview-vendors/fpn/partners">{{ 'Partners'|t }} <span aria-hidden="true">→</span></a></li>
+          </ul>
+        </div>
+        <div class="fv-vendors-col">
+          <h3 class="fv-vendors-col__title">{{ 'Vendor Information'|t }}</h3>
+          <p class="fv-vendors-col__body">
+            {{ 'Fairview and HealthEast make an effort to work with organizations whose values and standards of conduct match our own. All business partners and individual vendor representatives who conduct business with any Fairview location must complete the vendor certification process. HealthEast integrated with Fairview Health Services in 2017.'|t }}
+          </p>
+          <ul class="fv-vendors-links" role="list">
+            <li><a class="fv-vendors-arrow-link" href="/fairview-vendors/certification">{{ 'Fairview Vendor Certification Program'|t }} <span aria-hidden="true">→</span></a></li>
+            <li><a class="fv-vendors-arrow-link" href="/fairview-vendors/new-product">{{ 'New Product Introduction'|t }} <span aria-hidden="true">→</span></a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+{% endblock %}

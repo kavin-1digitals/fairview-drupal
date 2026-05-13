@@ -1,0 +1,51 @@
+<?php
+
+/**
+ * @file
+ * About / Who we are page at /about.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function fairview_about_preprocess_page(array &$variables): void {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($alias !== '/about') {
+    return;
+  }
+
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+  $variables['wwa_img_base'] = base_path() . $theme_path . '/images/who-we-are/';
+  $variables['wwa_values'] = fairview_about_value_stats();
+  $variables['#attached']['library'][] = 'fairview/about-page';
+  $variables['title'] = '';
+}
+
+/**
+ * Stat lines for the values slider.
+ *
+ * @return list<string>
+ */
+function fairview_about_value_stats(): array {
+  return [
+    '34,000+ Employees',
+    '100+ Specialties',
+    '10 Hospitals & Medical Centers',
+    '2,071 Staffed Beds',
+    '40+ Primary Care Clinics',
+    '5,000+ System Providers',
+    '90+ Senior Housing Locations',
+    '36 Pharmacies',
+    '2.1+ Million Clinic Visits',
+    '1,114,520 Outpatient Registrations',
+    '106,101 Inpatient Admissions',
+    '13,699 Births',
+    '90,411 Surgeries',
+    '326,198 Emergency Department Registrations',
+    '11,527 Behavioral Inpatient Admissions',
+    '236 Blood and Marrow Transplants',
+    '331 Organ Transplants',
+    '2.3+ Million Pharmacy Unit Sales',
+  ];
+}

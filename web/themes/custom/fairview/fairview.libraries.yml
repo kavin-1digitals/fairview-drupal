@@ -1,8 +1,18 @@
+contact-banner:
+  css:
+    theme:
+      css/contact-banner.css:
+        preprocess: false
+
 utility-bar:
   css:
     theme:
       css/utility-bar.css:
         preprocess: false
+  js:
+    js/utility-bar.js:
+      attributes:
+        defer: true
 
 primary-nav:
   css:
@@ -93,3 +103,80 @@ announcement-slider:
     js/announcement-slider.js:
       attributes:
         defer: true
+
+provider-search:
+  css:
+    theme:
+      css/provider-search.css:
+        preprocess: false
+  js:
+    js/provider-search.js:
+      attributes:
+        defer: true
+  dependencies:
+    - core/drupal
+    - core/once
+
+location-list:
+  css:
+    theme:
+      css/location-list.css:
+        preprocess: false
+  js:
+    js/location-list.js:
+      attributes:
+        defer: true
+  dependencies:
+    - core/drupal
+    - core/once
+
+get-care:
+  css:
+    theme:
+      css/get-care.css:
+        preprocess: false
+  js:
+    js/get-care.js:
+      attributes:
+        defer: true
+  dependencies:
+    - core/drupal
+    - core/once
+
+services:
+  css:
+    theme:
+      css/services.css:
+        preprocess: false
+  js:
+    js/services.js:
+      attributes:
+        defer: true
+  dependencies:
+    - core/drupal
+    - core/once
+
+resources:
+  css:
+    theme:
+      css/resources.css:
+        preprocess: false
+
+fairview-vendors:
+  css:
+    theme:
+      css/fairview-vendors.css:
+        preprocess: false
+
+about-page:
+  css:
+    theme:
+      css/about-page.css:
+        preprocess: false
+  js:
+    js/about-page.js:
+      attributes:
+        defer: true
+  dependencies:
+    - core/drupal
+    - core/once

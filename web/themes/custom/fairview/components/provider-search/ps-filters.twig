@@ -1,0 +1,145 @@
+{#
+  Filter toolbar — polished dropdown-style controls.
+#}
+<div class="ps-filters-wrap">
+  <div class="ps-filters" data-ps-filters>
+    <div class="ps-filters__lead" aria-hidden="true">
+      <svg class="ps-filters__icon" width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <path d="M2 4h12M4.5 8h7M6.5 12h3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+      <span class="ps-filters__lead-text">{{ 'All Filters'|t }}</span>
+    </div>
+
+    <div class="ps-filter">
+      <button type="button" class="ps-filter__trigger" data-ps-filter-trigger aria-expanded="false" aria-controls="ps-panel-location" id="ps-btn-location">
+        <span class="ps-filter__trigger-label">{{ 'Location'|t }}</span>
+      </button>
+      <div class="ps-filter__panel" id="ps-panel-location" data-ps-filter-panel hidden>
+        <div class="ps-filter__panel-head">
+          <h2 class="ps-filter__title" id="ps-panel-location-title">{{ 'Location'|t }}</h2>
+          <button type="button" class="ps-filter__panel-close" data-ps-filter-close aria-label="{{ 'Close'|t }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="ps-filter__panel-body">
+          <div class="ps-filter__row">
+            <span class="ps-filter__within">{{ 'Within'|t }}</span>
+            <select class="ps-filter__select ps-filter__select--grow" name="radius" aria-labelledby="ps-panel-location-title">
+              <option>any miles</option>
+              <option>5 miles</option>
+              <option>10 miles</option>
+              <option>25 miles</option>
+              <option>50 miles</option>
+              <option>100 miles</option>
+            </select>
+          </div>
+          <label class="ps-filter__field-label" for="ps-loc-input">{{ 'City, State or Zip'|t }}</label>
+          <input id="ps-loc-input" type="text" class="ps-filter__input" placeholder="{{ 'City, State or Zip'|t }}" autocomplete="address-level2" />
+          <button type="button" class="ps-filter__linkish">{{ 'Use current location'|t }}</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-filter">
+      <button type="button" class="ps-filter__trigger" data-ps-filter-trigger aria-expanded="false" aria-controls="ps-panel-book" id="ps-btn-book">
+        <span class="ps-filter__trigger-label">{{ 'Book Online'|t }}</span>
+      </button>
+      <div class="ps-filter__panel" id="ps-panel-book" data-ps-filter-panel hidden>
+        <div class="ps-filter__panel-head">
+          <h2 class="ps-filter__title">{{ 'Book Online'|t }}</h2>
+          <button type="button" class="ps-filter__panel-close" data-ps-filter-close aria-label="{{ 'Close'|t }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="ps-filter__panel-body">
+          <label class="ps-check">
+            <input type="checkbox" name="book_online" />
+            <span>{{ 'Book Online (508)'|t }}</span>
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-filter">
+      <button type="button" class="ps-filter__trigger" data-ps-filter-trigger aria-expanded="false" aria-controls="ps-panel-spec" id="ps-btn-spec">
+        <span class="ps-filter__trigger-label">{{ 'Specialty'|t }}</span>
+      </button>
+      <div class="ps-filter__panel" id="ps-panel-spec" data-ps-filter-panel hidden>
+        <div class="ps-filter__panel-head">
+          <h2 class="ps-filter__title">{{ 'Specialty'|t }}</h2>
+          <button type="button" class="ps-filter__panel-close" data-ps-filter-close aria-label="{{ 'Close'|t }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="ps-filter__panel-body">
+          <label class="visually-hidden" for="ps-spec-input">{{ 'Specialty'|t }}</label>
+          <input id="ps-spec-input" type="search" class="ps-filter__input" placeholder="{{ 'Type here...'|t }}" />
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-filter">
+      <button type="button" class="ps-filter__trigger" data-ps-filter-trigger aria-expanded="false" aria-controls="ps-panel-ins" id="ps-btn-ins">
+        <span class="ps-filter__trigger-label">{{ 'Insurance Accepted'|t }}</span>
+      </button>
+      <div class="ps-filter__panel" id="ps-panel-ins" data-ps-filter-panel hidden>
+        <div class="ps-filter__panel-head">
+          <h2 class="ps-filter__title">{{ 'Insurance Accepted'|t }}</h2>
+          <button type="button" class="ps-filter__panel-close" data-ps-filter-close aria-label="{{ 'Close'|t }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="ps-filter__panel-body">
+          <label class="visually-hidden" for="ps-ins-input">{{ 'Insurance Accepted'|t }}</label>
+          <input id="ps-ins-input" type="search" class="ps-filter__input" placeholder="{{ 'Type here...'|t }}" />
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-filter">
+      <button type="button" class="ps-filter__trigger" data-ps-filter-trigger aria-expanded="false" aria-controls="ps-panel-gender" id="ps-btn-gender">
+        <span class="ps-filter__trigger-label">{{ 'Gender'|t }}</span>
+      </button>
+      <div class="ps-filter__panel" id="ps-panel-gender" data-ps-filter-panel hidden>
+        <div class="ps-filter__panel-head">
+          <h2 class="ps-filter__title">{{ 'Gender'|t }}</h2>
+          <button type="button" class="ps-filter__panel-close" data-ps-filter-close aria-label="{{ 'Close'|t }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="ps-filter__panel-body">
+          <label class="ps-check"><input type="checkbox" name="g_f" /> <span>{{ 'Female (2178)'|t }}</span></label>
+          <label class="ps-check"><input type="checkbox" name="g_m" /> <span>{{ 'Male (1186)'|t }}</span></label>
+          <label class="ps-check"><input type="checkbox" name="g_nb" /> <span>{{ 'Non-binary (2)'|t }}</span></label>
+        </div>
+      </div>
+    </div>
+
+    <div class="ps-filter">
+      <button type="button" class="ps-filter__trigger" data-ps-filter-trigger aria-expanded="false" aria-controls="ps-panel-pro" id="ps-btn-pro">
+        <span class="ps-filter__trigger-label">{{ 'Pronouns'|t }}</span>
+      </button>
+      <div class="ps-filter__panel" id="ps-panel-pro" data-ps-filter-panel hidden>
+        <div class="ps-filter__panel-head">
+          <h2 class="ps-filter__title">{{ 'Pronouns'|t }}</h2>
+          <button type="button" class="ps-filter__panel-close" data-ps-filter-close aria-label="{{ 'Close'|t }}">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M4 4l8 8M12 4L4 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </button>
+        </div>
+        <div class="ps-filter__panel-body">
+          <label class="ps-check"><input type="checkbox" /> <span>{{ 'Ask Me (1)'|t }}</span></label>
+          <label class="ps-check"><input type="checkbox" /> <span>{{ 'He, Him (137)'|t }}</span></label>
+          <label class="ps-check"><input type="checkbox" /> <span>{{ 'He, They (1)'|t }}</span></label>
+          <label class="ps-check"><input type="checkbox" /> <span>{{ 'She, Her (367)'|t }}</span></label>
+          <label class="ps-check"><input type="checkbox" /> <span>{{ 'She, They (3)'|t }}</span></label>
+          <div class="ps-filter__more" data-ps-pronouns-more hidden>
+            <label class="ps-check"><input type="checkbox" /> <span>{{ 'They, Them (12)'|t }}</span></label>
+            <label class="ps-check"><input type="checkbox" /> <span>{{ 'Other (4)'|t }}</span></label>
+          </div>
+          <button type="button" class="ps-filter__show-more" data-ps-show-more>{{ 'Show More'|t }}</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

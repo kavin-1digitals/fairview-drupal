@@ -1,0 +1,38 @@
+{#
+/**
+ * @file
+ * Transparency — three columns with inline links.
+ */
+#}
+<section class="wwa-band" aria-labelledby="wwa-transparency-title">
+  <div class="wwa-band__inner">
+    <h2 id="wwa-transparency-title" class="wwa-band__title">{{ 'Transparency'|t }}</h2>
+    <div class="wwa-cols wwa-cols--3">
+      <div class="wwa-col wwa-col--links">
+        <h3 class="wwa-col__title">{{ 'Financial Reporting'|t }}</h3>
+        <p class="wwa-col__desc">{{ 'As a nonprofit, we rely on the community to support us in our work, and that means the community has a right to know how we use their donations. Here is our most recent financial information:'|t }}</p>
+        <ul class="wwa-linklist" role="list">
+          <li><a class="wwa-arrow-link" href="/about/financials/2024-audited">{{ 'Fairview’s 2024 audited statement'|t }} <span aria-hidden="true">→</span></a></li>
+          <li><a class="wwa-arrow-link" href="/about/financials/2024-990">{{ '2024 IRS 990 form'|t }} <span aria-hidden="true">→</span></a></li>
+        </ul>
+      </div>
+      <div class="wwa-col">
+        <h3 class="wwa-col__title">{{ 'Clinical Outcomes'|t }}</h3>
+        <p class="wwa-col__desc">
+          {{ 'We take pride in our health outcomes, and our patients can take comfort knowing the numbers confirm they are in good hands. You can always view reports on'|t }}
+          <a href="/locations/hospitals">{{ 'Fairview Hospitals'|t }}</a>,
+          <a href="/locations/clinics">{{ 'Fairview Clinics'|t }}</a>
+          {{ 'or'|t }}
+          <a href="/locations/bethesda">{{ 'Bethesda Hospital'|t }}</a>.
+        </p>
+      </div>
+      <div class="wwa-col">
+        <h3 class="wwa-col__title">{{ 'Economic Impact'|t }}</h3>
+        <p class="wwa-col__desc">
+          {{ 'When Fairview provides jobs and purchases goods and services, it creates an economic impact that extends beyond our own operations to our local and state businesses and governments. Read about'|t }}
+          <a href="/about/economic-impact">{{ 'Fairview’s economic impact'|t }}</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

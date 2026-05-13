@@ -1,0 +1,15 @@
+{#
+  Provider search — large centered hero search.
+#}
+<section class="ps-top" aria-labelledby="ps-search-heading">
+  <div class="ps-top__inner">
+    <h1 id="ps-search-heading" class="ps-top__heading">{{ search_heading ?: 'What can we help you with?' }}</h1>
+    <form class="ps-top__form" role="search" action="/search" method="get" id="ps-provider-search-form">
+      <label for="ps-query" class="visually-hidden">{{ search_heading ?: 'What can we help you with?' }}</label>
+      <div class="ps-top__field">
+        <input type="search" id="ps-query" name="q" class="ps-top__input" placeholder="{{ search_hint ?: 'Enter a Condition, Specility or Provider Name' }}" autocomplete="off" />
+      </div>
+      <button type="submit" class="ps-top__submit">{{ 'Search'|t }}</button>
+    </form>
+  </div>
+</section>

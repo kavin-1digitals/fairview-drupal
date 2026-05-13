@@ -1,4 +1,35 @@
-<nav class="utility-bar" aria-label="{{ 'Utility navigation'|t }}">
+{#
+/**
+ * @file
+ * Top utility strip — optional dropdowns for Donate, Careers, Medical Pros.
+ *
+ * Variables:
+ *   left_links — keyed URLs (unchanged)
+ *   right_links — keyed URLs for Language, Contact (optional overrides)
+ *   donate_items, careers_items, medical_prof_items — optional arrays of { label, url }
+ */
+#}
+{% set donate_items = donate_items|default([
+  { label: 'Giving'|t, url: '/donate/giving' },
+  { label: 'Volunteering'|t, url: '/donate/volunteering' },
+]) %}
+{% set careers_items = careers_items|default([
+  { label: 'Overview'|t, url: '/careers/overview' },
+  { label: 'Benefits'|t, url: '/careers/benefits' },
+  { label: 'Diversity, Equity & Inclusion'|t, url: '/careers/dei' },
+  { label: 'Life In Minnesota'|t, url: '/careers/life-in-minnesota' },
+  { label: 'Nursing'|t, url: '/careers/nursing' },
+  { label: 'Educational Opportunities'|t, url: '/careers/education' },
+]) %}
+{% set medical_prof_items = medical_prof_items|default([
+  { label: 'Medical Education and Learners'|t, url: '/medical-professionals/education-learners' },
+  { label: 'Continuing Medical Education'|t, url: '/medical-professionals/cme' },
+  { label: 'Required Learning'|t, url: '/medical-professionals/required-learning' },
+  { label: 'Research & Clinical Trials'|t, url: '/medical-professionals/research' },
+  { label: 'Internal Career Portal'|t, url: '/medical-professionals/careers' },
+]) %}
+
+<nav class="utility-bar" aria-label="{{ 'Utility navigation'|t }}" data-utility-bar>
   <div class="utility-bar__inner">
 
     {# Left group: affiliated sites / sub-brands #}
@@ -25,7 +56,7 @@
       </li>
     </ul>
 
-    {# Right group: utility actions #}
+    {# Right group #}
     <ul class="utility-bar__group utility-bar__group--right" role="list">
       <li class="utility-bar__item">
         <a class="utility-bar__link utility-bar__link--language" href="{{ right_links['language'].url|default('#') }}"
@@ -38,20 +69,63 @@
           {{ 'Contact Us'|t }}
         </a>
       </li>
-      <li class="utility-bar__item">
-        <a class="utility-bar__link" href="{{ right_links['news-stories'].url|default('#') }}">
-          {{ 'News &amp; Stories'|t }}
-        </a>
+
+      {# Donate (replaces News & Stories) #}
+      <li class="utility-bar__item utility-bar__item--dropdown" data-utility-dropdown>
+        <button type="button"
+                class="utility-bar__trigger"
+                data-utility-dropdown-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                id="utility-donate-trigger">
+          {{ 'Donate'|t }}
+          <svg class="utility-bar__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true" focusable="false">
+            <path d="M1.5 3.5L5 7L8.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="utility-bar__dropdown" id="utility-donate-menu" data-utility-dropdown-panel role="menu" hidden aria-labelledby="utility-donate-trigger">
+          {% for row in donate_items %}
+            <li role="none"><a role="menuitem" class="utility-bar__dropdown-link" href="{{ row.url }}">{{ row.label }}</a></li>
+          {% endfor %}
+        </ul>
       </li>
-      <li class="utility-bar__item">
-        <a class="utility-bar__link" href="{{ right_links['careers'].url|default('#') }}">
+
+      <li class="utility-bar__item utility-bar__item--dropdown" data-utility-dropdown>
+        <button type="button"
+                class="utility-bar__trigger"
+                data-utility-dropdown-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                id="utility-careers-trigger">
           {{ 'Careers'|t }}
-        </a>
+          <svg class="utility-bar__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true" focusable="false">
+            <path d="M1.5 3.5L5 7L8.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="utility-bar__dropdown" id="utility-careers-menu" data-utility-dropdown-panel role="menu" hidden aria-labelledby="utility-careers-trigger">
+          {% for row in careers_items %}
+            <li role="none"><a role="menuitem" class="utility-bar__dropdown-link" href="{{ row.url }}">{{ row.label }}</a></li>
+          {% endfor %}
+        </ul>
       </li>
-      <li class="utility-bar__item">
-        <a class="utility-bar__link" href="{{ right_links['for-medical-professionals'].url|default('#') }}">
+
+      <li class="utility-bar__item utility-bar__item--dropdown" data-utility-dropdown>
+        <button type="button"
+                class="utility-bar__trigger"
+                data-utility-dropdown-trigger
+                aria-expanded="false"
+                aria-haspopup="true"
+                id="utility-medical-trigger">
           {{ 'For Medical Professionals'|t }}
-        </a>
+          <svg class="utility-bar__chevron" width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true" focusable="false">
+            <path d="M1.5 3.5L5 7L8.5 3.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+        <ul class="utility-bar__dropdown utility-bar__dropdown--wide" id="utility-medical-menu" data-utility-dropdown-panel role="menu" hidden aria-labelledby="utility-medical-trigger">
+          {% for row in medical_prof_items %}
+            <li role="none"><a role="menuitem" class="utility-bar__dropdown-link" href="{{ row.url }}">{{ row.label }}</a></li>
+          {% endfor %}
+        </ul>
       </li>
     </ul>
 

@@ -1,0 +1,25 @@
+{#
+/**
+ * @file
+ * Key departments grid (6 per row on wide screens).
+ */
+#}
+<section class="sv-key" aria-labelledby="sv-key-title">
+  <div class="sv-key__inner">
+    <h2 id="sv-key-title" class="sv-key__title">{{ sv_key_depts_title|default('') }}</h2>
+    <ul class="sv-key__grid">
+      {% for card in sv_key_dept_cards|default([]) %}
+        <li class="sv-key__cell">
+          <a class="sv-key-card" href="{{ card.url|default('#') }}">
+            <span class="sv-key-card__icon-wrap" aria-hidden="true">
+              {% if card.icon %}
+                <img class="sv-key-card__icon" src="{{ sv_img_base|default('') }}{{ card.icon }}" width="40" height="40" alt="" loading="lazy" />
+              {% endif %}
+            </span>
+            <span class="sv-key-card__label">{{ card.label }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>

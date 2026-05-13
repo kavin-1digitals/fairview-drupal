@@ -1,0 +1,5 @@
+name: 'Fairview Resources'
+type: module
+description: 'Resources landing page at /resources (node-backed).'
+core_version_requirement: ^11
+package: 'Fairview'

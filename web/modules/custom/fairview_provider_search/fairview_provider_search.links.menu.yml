@@ -1,0 +1,6 @@
+fairview_provider_search.settings:
+  title: 'Provider search page'
+  description: 'Text and labels for the /search provider finder.'
+  parent: system.admin_config_content
+  route_name: fairview_provider_search.settings
+  weight: 50

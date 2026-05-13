@@ -27,7 +27,7 @@
       intro_title:         'Get Care',
       intro_description:   "Uncertain about which care option to choose? Visit our 'Get Care' section and find the best care for your needs.",
       intro_cta_label:     'Help Me Choose',
-      intro_cta_url:       '/schedule/help-me-choose',
+      intro_cta_url:       '/get-care',
       quick_links_heading: 'Browse Care Options',
       quick_links: [
         { label: 'Get Care Today',          url: '/care/today' },
@@ -55,7 +55,7 @@
       intro_title:         'Providers',
       intro_description:   'Embark on your healthcare journey by finding the perfect provider to guide you.',
       intro_cta_label:     'View All Providers',
-      intro_cta_url:       '/providers',
+      intro_cta_url:       '/search',
       quick_links_heading: 'Providers by Specialty',
       quick_links: [
         { label: 'Cancer Care',    url: '/providers/cancer-care' },
@@ -84,7 +84,7 @@
       intro_title:         'Locations',
       intro_description:   'With a presence everywhere, discover the most convenient locations for you and your family, no matter your needs.',
       intro_cta_label:     'Search Locations',
-      intro_cta_url:       '/locations',
+      intro_cta_url:       '/locations/list',
       quick_links_heading: '',
       quick_links: [
         { label: 'Birthplace',     url: '/locations/birthplace' },
@@ -112,7 +112,7 @@
       intro_title:         'Care & Treatment',
       intro_description:   'Discover the range of conditions, treatments, services, and specialties we offer at M Health Fairview, providing you with the knowledge needed to make informed decisions for your healthcare.',
       intro_cta_label:     'View All Care',
-      intro_cta_url:       '/care-treatment',
+      intro_cta_url:       '/services',
       quick_links_heading: 'Key Departments & Specialties',
       quick_links: [
         { label: 'Birthplace',   url: '/care-treatment/birthplace' },
@@ -159,10 +159,29 @@
   {% endif %}
 {% endset %}
 
-{# About Us — data to be supplied in a future prompt #}
+{# About Us #}
 {% set mm_about %}
   {% if page.mega_menu_about %}
     {{ page.mega_menu_about }}
+  {% else %}
+    {% include '@fairview/components/mega-menu/mega-menu.twig' with {
+      intro_title:         'About Us',
+      intro_description:   'Learn who we are, read our stories, and connect with our vendor partners.',
+      intro_cta_label:     '',
+      intro_cta_url:       '',
+      quick_links_heading: '',
+      quick_links: [
+        { label: 'Who We Are',       url: '/about' },
+        { label: 'News and Stories', url: '/news' },
+        { label: 'Fairview Vendors', url: '/fairview-vendors' },
+      ],
+      view_all_label:      '',
+      view_all_url:        '',
+      featured_image_url:  base_path ~ directory ~ '/images/care_promo.avif',
+      featured_image_alt:  'Care team supporting patients',
+      featured_text:       'Our Mission',
+      featured_url:        '/about',
+    } only %}
   {% endif %}
 {% endset %}
 
@@ -179,10 +198,7 @@
     },
     right_links: {
       'language':                  { url: '#language' },
-      'contact-us':                { url: '/contact' },
-      'news-stories':              { url: '/news' },
-      'careers':                   { url: '/careers' },
-      'for-medical-professionals': { url: '/medical-professionals' }
+      'contact-us':                { url: '/contact' }
     }
   } only %}
 {% endif %}

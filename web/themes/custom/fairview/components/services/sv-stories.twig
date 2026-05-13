@@ -1,0 +1,37 @@
+{#
+/**
+ * @file
+ * Patient stories horizontal strip.
+ */
+#}
+<section class="sv-stories" data-sv-stories aria-labelledby="sv-stories-title">
+  <div class="sv-stories__head">
+    <h2 id="sv-stories-title" class="sv-stories__title">{{ sv_stories_title|default('') }}</h2>
+    <div class="sv-stories__nav">
+      <button type="button" class="sv-stories__btn sv-stories__btn--prev" data-sv-prev aria-label="{{ 'Previous'|t }}">
+        <span aria-hidden="true">‹</span>
+      </button>
+      <button type="button" class="sv-stories__btn sv-stories__btn--next" data-sv-next aria-label="{{ 'Next'|t }}">
+        <span aria-hidden="true">›</span>
+      </button>
+    </div>
+  </div>
+  <div class="sv-stories__viewport">
+    <div class="sv-stories__track" data-sv-track>
+      {% for story in sv_story_cards|default([]) %}
+        <article class="sv-story-card">
+          <div class="sv-story-card__media" aria-hidden="true">
+            <div class="sv-story-card__placeholder"></div>
+          </div>
+          <div class="sv-story-card__body">
+            <h3 class="sv-story-card__title">{{ story.title }}</h3>
+            <p class="sv-story-card__desc">{{ story.description }}</p>
+            <a class="sv-story-card__arrow" href="{{ story.url|default('#') }}" aria-label="{{ 'Read more'|t }}">
+              <span aria-hidden="true">→</span>
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

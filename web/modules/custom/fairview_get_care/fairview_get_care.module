@@ -1,0 +1,121 @@
+<?php
+
+/**
+ * @file
+ * Get Care landing page variables for /get-care.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function fairview_get_care_preprocess_page(array &$variables): void {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($alias !== '/get-care') {
+    return;
+  }
+
+  $theme_path = \Drupal::theme()->getActiveTheme()->getPath();
+  $variables['gc_icon_base'] = base_path() . $theme_path . '/images/get_care/';
+
+  $variables['gc_grid_cards'] = [
+    [
+      'variant' => 'arrow',
+      'title' => 'Get Care Today',
+      'url' => '/care/today',
+      'icon' => 'get-care-today.svg',
+      'description' => 'Need same-day care? We have plenty of virtual and in-person options to fit your needs - and your schedule.',
+    ],
+    [
+      'variant' => 'arrow',
+      'title' => 'Schedule your care',
+      'url' => '/care',
+      'icon' => 'schedule-your-care.svg',
+      'description' => 'We can handle your routine or complex healthcare needs. Find a primary or specialty care option tailored to you.',
+    ],
+    [
+      'variant' => 'cta',
+      'title' => 'Lab Visit',
+      'icon' => 'lab-visit.svg',
+      'description' => 'Our labs offer reliable results and fast turnaround times. Schedule diagnostic tests or health monitoring now.',
+      'button_label' => 'Schedule Lab Visit',
+      'button_url' => '/care/lab',
+    ],
+    [
+      'variant' => 'cta',
+      'title' => 'Vaccines',
+      'icon' => 'vaccines.svg',
+      'description' => 'Keep your family and our community healthy by getting your recommended vaccines.',
+      'button_label' => 'Learn More',
+      'button_url' => '/care/vaccines',
+    ],
+  ];
+
+  $variables['gc_slider_cards'] = fairview_get_care_slider_cards();
+
+  $variables['footer_schedule_title'] = 'Contact Us 24/7:';
+  $variables['footer_schedule_phone'] = '1-855-FAIRVIEW';
+  $variables['footer_schedule_phone_alt'] = '1-855-324-7843';
+
+  $variables['#attached']['library'][] = 'fairview/get-care';
+  $variables['title'] = '';
+}
+
+/**
+ * Promotional cards for the horizontal slider.
+ *
+ * @return list<array<string, string>>
+ *   Slider items.
+ */
+function fairview_get_care_slider_cards(): array {
+  return [
+    [
+      'title' => 'E-Visits Are Available for the Flu',
+      'description' => 'E-visits are a quick and convenient care option for flu-like symptoms. You can stay home and still get clinical diagnosis and treatment advice from a provider.',
+      'button' => 'Start an e-Visit',
+      'url' => '/care/evisits',
+    ],
+    [
+      'title' => 'Pediatric Care Beyond Expectations',
+      'description' => 'From a simple ear infection to life-changing surgery. We offer one of Minnesota’s most comprehensive healthcare systems for children.',
+      'button' => 'Get Pediatric Care',
+      'url' => '/care/pediatric',
+    ],
+    [
+      'title' => "Empowering Women's Health: Schedule Now",
+      'description' => 'Experience the empowerment of personalized women\'s health appointments, offering essential check-ups, screenings, and guidance. Prioritize your well-being for a vibrant, happier you. Schedule on MyChart here.',
+      'button' => 'Schedule Now',
+      'url' => '/care/womens-health',
+    ],
+    [
+      'title' => 'Same-day Virtual Urgent Care appointments',
+      'description' => 'When the unexpected happens – we offer Virtual Urgent Care. Video chat with an urgent care doctor for those common illnesses and injuries from the comfort of your home.',
+      'button' => 'Schedule Now',
+      'url' => '/care/virtual-urgent-care',
+    ],
+    [
+      'title' => 'Pediatric Care Beyond Expectations',
+      'description' => 'From a simple ear infection to life-changing surgery. We offer one of Minnesota’s most comprehensive healthcare systems for children.',
+      'button' => 'Get Pediatric Care',
+      'url' => '/care/pediatric',
+    ],
+    [
+      'title' => "Empowering Women's Health: Schedule Now",
+      'description' => 'Experience the empowerment of personalized women\'s health appointments, offering essential check-ups, screenings, and guidance. Prioritize your well-being for a vibrant, happier you. Schedule on MyChart here.',
+      'button' => 'Schedule Now',
+      'url' => '/care/womens-health',
+    ],
+    [
+      'title' => 'Same-day Virtual Urgent Care appointments',
+      'description' => 'When the unexpected happens – we offer Virtual Urgent Care. Video chat with an urgent care doctor for those common illnesses and injuries from the comfort of your home.',
+      'button' => 'Schedule Now',
+      'url' => '/care/virtual-urgent-care',
+    ],
+    [
+      'title' => 'Explore Our Patient Education Portal',
+      'description' => 'Embark on your health journey with comprehensive patient education, unlocking awareness, expanding knowledge, and enhancing decision-making skills.',
+      'button' => 'Visit Health Library',
+      'url' => '/resources/health-library',
+    ],
+  ];
+}

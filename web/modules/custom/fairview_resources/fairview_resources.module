@@ -1,0 +1,90 @@
+<?php
+
+/**
+ * @file
+ * Resources landing page variables for /resources.
+ */
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function fairview_resources_preprocess_page(array &$variables): void {
+  $current_path = \Drupal::service('path.current')->getPath();
+  $alias = \Drupal::service('path_alias.manager')->getAliasByPath($current_path);
+  if ($alias !== '/resources') {
+    return;
+  }
+
+  $variables['res_page_title'] = 'Resources & Information';
+  $variables['res_resource_cards'] = [
+    [
+      'title' => 'Patient Experience',
+      'description' => 'In our continual pursuit of the best possible outcomes, it is essential that we hear from our patients.',
+      'link_label' => 'Provide Feedback',
+      'url' => '/resources/patient-experience',
+    ],
+    [
+      'title' => 'M Health Fairview App & MyChart',
+      'description' => 'Communicate with your care team, begin an eVisit, refill a medication, manage appointments, and more.',
+      'link_label' => 'More Info',
+      'url' => '/resources/mychart',
+    ],
+    [
+      'title' => 'Telehealth: Video Visits',
+      'description' => 'Secure video visits through your mobile device or computer are an easy alternative for you to consult with your provider or care team without needing to come into the clinic.',
+      'link_label' => 'More Info',
+      'url' => '/resources/telehealth',
+    ],
+    [
+      'title' => 'Community Resource Connect',
+      'description' => 'Is a free online community resource guide to help you find free or reduced-cost services near you.',
+      'link_label' => 'More Info',
+      'url' => '/resources/community-resource-connect',
+    ],
+    [
+      'title' => 'Request Your Medical Records',
+      'description' => 'As a patient of our healthcare system, you have the right to view and request a copy of your medical record.',
+      'link_label' => 'More Info',
+      'url' => '/resources/medical-records',
+    ],
+    [
+      'title' => 'Billing & Financial Resources',
+      'description' => "M Health Fairview offers online bill pay and we're here to help if you have any questions about understanding your bill. We also provide resources to answer common billing questions, coverage information, and financial assistance.",
+      'link_label' => 'More Info',
+      'url' => '/resources/billing',
+    ],
+    [
+      'title' => 'For Medical Professionals',
+      'description' => 'In this section of the site, you will find information about referrals and our specialists. This online resource connects you with our latest clinical trials and specialty-specific updates. Discover continuing education opportunities and the many ways we are available to you.',
+      'link_label' => 'More Info',
+      'url' => '/medical-professionals',
+    ],
+    [
+      'title' => 'Patients and Visitors',
+      'description' => 'We are committed to delivering an exceptional patient experience. We offer a variety of resources and services to help make your stay or visit more comfortable.',
+      'link_label' => 'More Info',
+      'url' => '/resources/patients-visitors',
+    ],
+    [
+      'title' => 'Policies & Documentation',
+      'description' => 'Dive into our extensive policy library and documentation to gain insights into our dedication to transparency, compliance, and industry best practices.',
+      'link_label' => 'More Info',
+      'url' => '/resources/policies',
+    ],
+    [
+      'title' => 'Patient Education',
+      'description' => 'Not finding the information you need? Find additional resources and health content using our patient education portal.',
+      'link_label' => 'More Info',
+      'url' => '/resources/health-library',
+    ],
+    [
+      'title' => 'Language Services',
+      'description' => 'Discover our specialised healthcare language services to help you through your care. Our certified linguists ensure precision and cultural sensitivity, facilitating clear communication between providers and patients.',
+      'link_label' => 'More Info',
+      'url' => '/resources/language-services',
+    ],
+  ];
+
+  $variables['#attached']['library'][] = 'fairview/resources';
+  $variables['title'] = '';
+}

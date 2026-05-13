@@ -1,0 +1,5 @@
+name: 'Fairview Provider Search'
+type: module
+description: 'Provider search landing page at /search with admin-configurable copy.'
+core_version_requirement: ^11
+package: 'Fairview'

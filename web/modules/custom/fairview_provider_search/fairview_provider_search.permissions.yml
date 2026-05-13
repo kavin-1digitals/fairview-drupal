@@ -1,0 +1,3 @@
+administer fairview provider search:
+  title: 'Administer Fairview provider search settings'
+  description: 'Edit headings, alerts, and footer text on the /search page.'
