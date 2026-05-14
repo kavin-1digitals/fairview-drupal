@@ -1,0 +1,175 @@
+Part A — On your Mac (export what Git does not have)
+Step 1: Export the database
+What we’re doing: Saving everything Drupal stored in the DB (pages, menus, config in the DB, users, etc.) into one file.
+
+From your project folder (where ddev works):
+
+ddev export-db --file=~/Desktop/fairview-db.sql.gz
+You get fairview-db.sql.gz on your Desktop (or change the path).
+
+Step 2: Copy the uploaded files folder
+What we’re doing: Media and generated files live in web/sites/default/files. That folder is not in Git.
+
+cd /path/to/your/fairview-drupal-master
+tar czf ~/Desktop/fairview-files.tar.gz web/sites/default/files
+Step 3: Push code to GitHub (if not already)
+What we’re doing: Ubuntu will git clone the same code you develop with.
+
+Part B — On the Ubuntu server (install stack + restore site)
+Use one terminal session on Ubuntu. Below, replace:
+
+YOUR_GIT_URL with your repo HTTPS or SSH URL
+/var/www/fairview with where you want the project (this is fine for a first setup)
+Step 4: Install system software
+What we’re doing: Installing PHP (runs Drupal), MariaDB (database), Nginx (web server), and tools.
+
+sudo apt update
+sudo apt install -y git unzip curl nginx mariadb-server \
+  php8.3-fpm php8.3-cli php8.3-mysql php8.3-xml php8.3-curl \
+  php8.3-mbstring php8.3-zip php8.3-gd php8.3-intl php8.3-bcmath php8.3-opcache
+If php8.3-* is not found, run apt search php-fpm and use the version Ubuntu offers (Drupal 11 needs PHP 8.3 or newer).
+
+Step 5: Install Composer
+What we’re doing: Composer downloads Drupal core, contrib modules, and libraries into vendor/ and web/ — same as ddev composer install.
+
+cd ~
+curl -sS https://getcomposer.org/installer | php
+sudo mv composer.phar /usr/local/bin/composer
+composer --version
+Step 6: Clone the project
+What we’re doing: Putting the same codebase on the server as in GitHub.
+
+sudo mkdir -p /var/www
+sudo chown $USER:$USER /var/www
+cd /var/www
+git clone YOUR_GIT_URL fairview
+cd fairview
+Step 7: Install PHP dependencies
+What we’re doing: Filling in everything not stored in Git (vendor/, web/core, contrib, etc.).
+
+composer install
+Wait until it finishes. If it asks for GitHub tokens for private packages, that’s normal for private repos.
+
+Step 8: Create an empty database and a user
+What we’re doing: Giving Drupal a place to import your Mac dump.
+
+sudo mysql
+In the mysql> prompt:
+
+CREATE DATABASE fairview CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+CREATE USER 'fairview'@'localhost' IDENTIFIED BY 'choose_a_strong_password';
+GRANT ALL PRIVILEGES ON fairview.* TO 'fairview'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+Step 9: Copy your Mac exports to Ubuntu
+What we’re doing: Moving the dump and files archive to the server (pick one):
+
+SCP from Mac:
+scp ~/Desktop/fairview-db.sql.gz ~/Desktop/fairview-files.tar.gz user@your-server-ip:/var/www/fairview/
+Or USB / cloud drive — same files must end up in /var/www/fairview/ (or your chosen path).
+Step 10: Import the database
+What we’re doing: Loading your real site data into MariaDB on Ubuntu.
+
+cd /var/www/fairview
+gunzip -c fairview-db.sql.gz | sudo mysql fairview
+If the dump is plain .sql (not gz):
+
+sudo mysql fairview < fairview-db.sql
+Step 11: Restore the files folder
+What we’re doing: Putting uploads and generated files where Drupal expects them.
+
+cd /var/www/fairview
+mkdir -p web/sites/default/files
+tar xzf fairview-files.tar.gz
+(That assumes the tarball was created from the project root so paths inside it start with web/sites/default/files.)
+
+Step 12: Tell Drupal how to connect to the database
+What we’re doing: settings.php holds DB host, name, user, password. It is usually not in Git, so we create it on the server.
+
+cp web/sites/default/default.settings.php web/sites/default/settings.php
+nano web/sites/default/settings.php
+Find the $databases array and set something like:
+
+$databases['default']['default'] = [
+  'database' => 'fairview',
+  'username' => 'fairview',
+  'password' => 'choose_a_strong_password',
+  'host' => 'localhost',
+  'port' => '3306',
+  'driver' => 'mysql',
+  'prefix' => '',
+  'collation' => 'utf8mb4_general_ci',
+];
+Important: If you copied the DB from DDEV, also copy hash_salt from your local web/sites/default/settings.php into this file (search for hash_salt). Same DB + same salt avoids subtle session/cookie issues. Save and exit (Ctrl+O, Enter, Ctrl+X in nano).
+
+Step 13: File permissions
+What we’re doing: Let the web server user (www-data) write cache and uploads.
+
+cd /var/www/fairview
+sudo chown -R www-data:www-data web/sites/default/files
+sudo chmod -R u+rwX,g+rwX web/sites/default/files
+sudo chgrp -R www-data web/sites/default/settings.php
+sudo chmod 640 web/sites/default/settings.php
+Step 14: Point Nginx at the web folder
+What we’re doing: Drupal’s public folder is web/, not the repo root. Nginx must use that as document root.
+
+sudo nano /etc/nginx/sites-available/fairview
+Paste (change server_name to your domain or server IP):
+
+server {
+    listen 80;
+    server_name your-domain-or-ip;
+    root /var/www/fairview/web;
+    index index.php index.html;
+    location / {
+        try_files $uri $uri/ /index.php?$query_string;
+    }
+    location ~ \.php$ {
+        include snippets/fastcgi-php.conf;
+        fastcgi_pass unix:/run/php/php8.3-fpm.sock;
+    }
+    location ~ /\.ht {
+        deny all;
+    }
+}
+Enable the site and reload:
+
+sudo ln -s /etc/nginx/sites-available/fairview /etc/nginx/sites-enabled/
+sudo rm /etc/nginx/sites-enabled/default
+sudo nginx -t
+sudo systemctl reload nginx
+sudo systemctl restart php8.3-fpm
+Step 15: Clear Drupal caches (optional but good)
+What we’re doing: After a move, Drupal rebuilds its internal caches.
+
+cd /var/www/fairview
+./vendor/bin/drush cache:rebuild
+If drush is missing, you used composer install --no-dev; run composer install once so vendor/bin/drush exists, or install Drush globally — ./vendor/bin/drush is enough for this step.
+
+Step 16: Open the site
+What we’re doing: Checking that the same pages appear.
+
+In a browser: http://your-domain-or-ip
+
+You should see the same site as locally. Log in with the same admin user that existed when you exported the DB.
+
+Short checklist
+Step	You are…
+Export DB
+Saving all CMS-managed content and DB-stored config
+Tar files
+Saving uploads and generated files
+git clone + composer install
+Same code + same PHP dependencies as the project
+Import DB + extract files
+Making Ubuntu a copy of your local site
+settings.php
+Pointing Drupal at Ubuntu’s MariaDB (and matching hash_salt if same DB)
+Nginx root …/web
+Serving Drupal correctly
+If something breaks (common beginner issues)
+White screen / 502: PHP-FPM socket path wrong (/run/php/php8.3-fpm.sock — check with ls /run/php/).
+Installer appears instead of your site: DB import failed or $databases points to wrong DB/empty DB.
+Missing images: files tarball not extracted or wrong path / permissions.
+If you tell me your Ubuntu version (lsb_release -a) and whether you use a domain name or only an IP, the Nginx server_name and any trusted host settings can be tightened next without changing the overall flow.
+
