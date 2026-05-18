@@ -1,0 +1,11 @@
+name: 'Drupal Canvas Test State API'
+type: module
+description: 'Test module for demonstrating State API functionality'
+package: Testing
+dependencies:
+  - canvas:canvas
+
+# Information added by Drupal.org packaging script on 2026-05-06
+version: '1.4.0'
+project: 'canvas'
+datestamp: 1778091971

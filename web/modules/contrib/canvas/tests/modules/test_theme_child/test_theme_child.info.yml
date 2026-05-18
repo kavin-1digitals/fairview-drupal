@@ -1,0 +1,9 @@
+name: Test Theme Child
+type: theme
+base theme: test_theme_base
+core_version_requirement: ^11
+
+# Information added by Drupal.org packaging script on 2026-05-06
+version: '1.4.0'
+project: 'canvas'
+datestamp: 1778091971
