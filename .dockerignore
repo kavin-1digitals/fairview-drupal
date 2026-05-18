@@ -1,0 +1,10 @@
+.git
+.ddev
+.DS_Store
+vendor
+data
+research-sandbox
+web/sites/default/settings.php
+web/sites/default/settings.ddev.php
+web/sites/default/files
+web/sites/*/files
